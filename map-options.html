@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smash Crew · confronto provider mappa senza API key</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root { color-scheme: dark; --orange: #FF5500; --orange-soft: #FF6A1F; font-family: 'DM Sans', system-ui, sans-serif; background: #080808; color: #f5f5f5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: clamp(22px, 4vw, 56px); }
+    main { width: min(1560px, 100%); margin: 0 auto; }
+    .eyebrow { color: var(--orange-soft); font: 800 .7rem/1.4 system-ui, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+    h1 { margin: 12px 0 10px; font: 900 clamp(1.6rem, 3.4vw, 2.8rem)/.98 system-ui, sans-serif; letter-spacing: -.03em; text-transform: uppercase; }
+    .intro { max-width: 74ch; margin: 0; color: #a8a8a8; line-height: 1.6; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
+    .panel { min-width: 0; padding: 13px; border: 1px solid #292929; border-radius: 16px; background: #111; }
+    .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 2px 11px; }
+    h2 { margin: 0; font: 800 clamp(.95rem, 1.6vw, 1.15rem)/1.2 system-ui, sans-serif; text-transform: uppercase; }
+    .state { color: #8a8a8a; font: 700 .6rem system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .map { position: relative; height: clamp(300px, 34vw, 460px); overflow: hidden; border: 1px solid #343434; border-radius: 10px; background: #151515; }
+    .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: invert(92%) hue-rotate(185deg) saturate(0) brightness(0.92) contrast(1.05); }
+    .map .leaflet-container { width: 100%; height: 100%; background: #151515; }
+    /* Stesso filtro del sito, applicato ai soli tile: il marker resta arancione. */
+    .leaflet-tile-pane { filter: invert(92%) hue-rotate(185deg) saturate(0) brightness(0.92) contrast(1.05); }
+    .vignette { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0,0,0,.55) 100%); }
+    .fixed-pin { position: absolute; z-index: 3; top: 50%; left: 50%; display: grid; width: 58px; height: 58px; place-items: center; transform: translate(-50%,-50%); border-radius: 50%; background: #FF5500; color: #080808; box-shadow: 0 0 28px rgba(255,85,0,.8); pointer-events: none; }
+    .fixed-pin svg { width: 25px; height: 25px; }
+    .geo-pin { position: relative; display: block; width: 46px; height: 50px; }
+    .geo-pin__mark { display: block; width: 46px; height: 46px; color: var(--orange); filter: drop-shadow(0 0 10px rgba(255,85,0,.95)) drop-shadow(0 3px 5px rgba(0,0,0,.65)); }
+    .geo-pin__hole { fill: #0b0b0b; }
+    .geo-pin::before, .geo-pin::after { position: absolute; left: 23px; top: 42px; width: 22px; height: 22px; margin: -11px 0 0 -11px; border: 2px solid rgba(255,85,0,.85); border-radius: 50%; content: ''; animation: pulse 2.8s cubic-bezier(.22,.61,.36,1) infinite; }
+    .geo-pin::after { animation-delay: 1.4s; }
+    @keyframes pulse { 0% { transform: scale(.35); opacity: .95; } 70% { opacity: .16; } 100% { transform: scale(2.8); opacity: 0; } }
+    .caption { margin: 12px 3px 2px; color: #a8a8a8; font-size: .85rem; line-height: 1.55; }
+    .caption b { color: #fff; }
+    .note { margin-top: 22px; padding: 15px 17px; border-left: 3px solid var(--orange-soft); background: #141414; color: #b8b8b8; font-size: .9rem; line-height: 1.6; }
+    .note strong { color: #fff; }
+    .leaflet-control-attribution { font-size: 9px !important; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; } .map { height: 340px; } }
+    @media (prefers-reduced-motion: reduce) { .geo-pin::before, .geo-pin::after { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Confronto · nessuna API key richiesta</p>
+    <h1>Quale mappa somiglia di più a quella di adesso?</h1>
+    <p class="intro">A sinistra la mappa attuale del sito, l'embed di Google. Al centro e a destra due provider aperti che accettano il tuo pin ancorato. Sui due pannelli Leaflet è applicato lo stesso filtro scuro che usa oggi il sito, quindi il tono è confrontabile. Trascina e fai zoom: il pin arancione segue la posizione.</p>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="panel-head"><h2>Google attuale</h2><span class="state">pin finto</span></div>
+        <div class="map">
+          <iframe title="Mappa Google attuale Smash Crew" src="https://maps.google.com/maps?q=Via%20Regina%20Elena%2056%2C%2062012%20Civitanova%20Marche%20(MC)&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="vignette" aria-hidden="true"></div>
+          <div class="fixed-pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        </div>
+        <p class="caption"><b>Riferimento.</b> Cartografia Google completa con i negozi vicini, ma il pin arancione non è agganciato e dentro l'iframe non si può agganciarlo.</p>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h2>Esri Street</h2><span class="state">pin ancorato</span></div>
+        <div class="map"><div id="map-esri"></div></div>
+        <p class="caption"><b>Il più ricco.</b> Riporta nomi delle vie ed etichette dei punti di interesse, quindi ha informazione vicina a Google. Stile di Esri, non lo stesso disegno.</p>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h2>OpenStreetMap</h2><span class="state">pin ancorato</span></div>
+        <div class="map"><div id="map-osm"></div></div>
+        <p class="caption"><b>Il più aperto.</b> Dati crowdsourced, buona copertura dei negozi, aggiornamenti frequenti. Graficamente più colorato prima del filtro.</p>
+      </article>
+    </section>
+
+    <p class="note"><strong>Il vincolo reale:</strong> la cartografia di Google viene distribuita solo in due modi, l'embed dentro un iframe, che è chiuso e non ti permette di inserire il tuo pin, oppure la JavaScript API, che richiede chiave. Non esiste una terza via. Per questo nessuno dei pannelli a destra può essere identico a quello a sinistra: se ti serve la mappa Google esatta, il pin personalizzato è impossibile e va accettato il marker di Google nella posizione giusta.</p>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const LAT = 43.3125900, LON = 13.7249566, ZOOM = 15;
+    const PIN = '<span class="geo-pin"><svg class="geo-pin__mark" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/>' +
+      '<circle class="geo-pin__hole" cx="12" cy="9" r="3.1"/></svg></span>';
+    function build(id, tileUrl, attribution) {
+      // Va risolto l'id in elemento: ResizeObserver.observe rifiuta una stringa
+      // e l'eccezione fermerebbe la costruzione delle mappe successive.
+      const el = document.getElementById(id);
+      // L'icona va creata per ogni mappa: un divIcon riusato tra mappe diverse
+      // non viene renderizzato dalla seconda.
+      const icon = L.divIcon({ className: '', html: PIN, iconSize: [46,50], iconAnchor: [23,45] });
+      const map = L.map(el, {
+        center: [LAT, LON], zoom: ZOOM, zoomControl: true,
+        dragging: true, scrollWheelZoom: true, doubleClickZoom: true, touchZoom: true
+      });
+      L.tileLayer(tileUrl, { maxZoom: 18, attribution: attribution }).addTo(map);
+      L.marker([LAT, LON], { icon: icon, keyboard: true, title: 'Smash Crew' }).addTo(map);
+      requestAnimationFrame(() => map.invalidateSize());
+      setTimeout(() => map.invalidateSize(), 250);
+      new ResizeObserver(() => map.invalidateSize()).observe(el);
+      return map;
+    }
+
+    build('map-esri',
+      'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      'Tiles &copy; <a href="https://www.esri.com/">Esri</a>');
+
+    build('map-osm',
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors');
+  </script>
+</body>
+</html>

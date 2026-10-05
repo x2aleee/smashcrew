@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smash Crew · confronto pin mappa</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root { color-scheme: dark; font-family: 'DM Sans', system-ui, sans-serif; background: #080808; color: #f5f5f5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: clamp(22px, 4vw, 56px); }
+    main { width: min(1400px, 100%); margin: 0 auto; }
+    .eyebrow { color: #ff6a1f; font: 800 .7rem/1.4 system-ui, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+    h1 { margin: 12px 0 10px; font: 900 clamp(2rem, 4vw, 3.5rem)/.96 system-ui, sans-serif; letter-spacing: -.04em; text-transform: uppercase; }
+    .intro { max-width: 70ch; margin: 0; color: #aaa; line-height: 1.6; }
+    .comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 34px; }
+    .panel { min-width: 0; padding: 15px; border: 1px solid #292929; border-radius: 16px; background: #111; }
+    .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 2px 13px; }
+    h2 { margin: 0; font: 800 clamp(1rem, 2vw, 1.25rem)/1.2 system-ui, sans-serif; text-transform: uppercase; }
+    .state { color: #888; font: 700 .65rem system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+    .map { position: relative; height: clamp(300px, 43vw, 460px); overflow: hidden; border: 1px solid #343434; border-radius: 10px; background: #151515; isolation: isolate; }
+    .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: invert(92%) hue-rotate(185deg) saturate(0) brightness(.92) contrast(1.05); }
+    .google-vignette { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0,0,0,.55) 100%); }
+    .fixed-pin { position: absolute; z-index: 3; top: 50%; left: 50%; display: grid; width: 58px; height: 58px; place-items: center; transform: translate(-50%,-50%); border-radius: 50%; background: #ff5500; color: #080808; box-shadow: 0 0 28px rgba(255,85,0,.8); pointer-events: none; }
+    .fixed-pin svg, .geo-pin svg { width: 25px; height: 25px; }
+    #leaflet-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.leaflet-tile-pane { filter: saturate(1.1) contrast(1.1) brightness(.7); }
+.geo-pin { position: relative; display: block; width: 46px; height: 50px; }
+.geo-pin__mark { display: block; width: 46px; height: 46px; color: #ff6a1f; filter: drop-shadow(0 0 10px rgba(255,106,31,.95)) drop-shadow(0 3px 5px rgba(0,0,0,.65)); }
+.geo-pin__hole { fill: #0b0b0b; }
+.geo-pin::before, .geo-pin::after { position: absolute; left: 23px; top: 42px; width: 22px; height: 22px; margin: -11px 0 0 -11px; border: 2px solid rgba(255,106,31,.85); border-radius: 50%; content: ''; animation: pulse 2.8s cubic-bezier(.22,.61,.36,1) infinite; }
+.geo-pin::after { animation-delay: 1.4s; }
+@keyframes pulse { 0% { transform: scale(.35); opacity: .95; } 70% { opacity: .16; } 100% { transform: scale(2.8); opacity: 0; } }
+    .caption { margin: 13px 3px 2px; color: #aaa; font-size: .88rem; line-height: 1.55; }
+    .note { margin-top: 24px; padding: 16px 18px; border-left: 3px solid #ff6a1f; background: #141414; color: #bbb; font-size: .9rem; line-height: 1.6; }
+    .note strong { color: #fff; }
+    .leaflet-control-attribution { font-size: 9px !important; }
+    @media (max-width: 760px) { .comparison { grid-template-columns: 1fr; } .map { height: 340px; } }
+    @media (prefers-reduced-motion: reduce) { .geo-pin::before, .geo-pin::after { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Anteprima · non modifica il sito</p>
+    <h1>Pin fisso o pin geolocalizzato?</h1>
+    <p class="intro">Confronto del layout attuale con una mappa interattiva alternativa. Trascina e fai zoom su ciascuna mappa: il pin arancione a sinistra resta al centro dello schermo, quello a destra segue le coordinate.</p>
+    <section class="comparison" aria-label="Confronto delle mappe">
+      <article class="panel">
+        <div class="panel-head"><h2>Google attuale</h2><span class="state">overlay centrato</span></div>
+        <div class="map">
+          <iframe title="Mappa Google attuale Smash Crew" src="https://maps.google.com/maps?q=Via%20Regina%20Elena%2056%2C%2062012%20Civitanova%20Marche%20(MC)&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="google-vignette" aria-hidden="true"></div>
+          <div class="fixed-pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        </div>
+        <p class="caption">Il pin arancione è un elemento HTML sopra l’iframe: rimane fermo nel riquadro, mentre il marker Google grigio si sposta con la cartografia.</p>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><h2>Leaflet · proposta</h2><span class="state">marker alle coordinate</span></div>
+        <div class="map"><div id="leaflet-map" aria-label="Mappa alternativa con pin arancione geolocalizzato"></div></div>
+        <p class="caption">Qui il pin arancione appartiene alla mappa: segue pan e zoom e sostituisce il marker grigio. Look monocromatico e alone scuro ispirati alla mappa attuale.</p>
+      </article>
+    </section>
+    <p class="note"><strong>Nota sulle coordinate:</strong> il geocoder OpenStreetMap trova Via Regina Elena, ma non conferma il civico 56: il marker della proposta è provvisorio sul tratto stradale restituito. Prima di trasferirlo nel sito, va confermata la posizione esatta del locale.</p>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const lat = 43.3125900;
+    const lon = 13.7249566;
+    const map = L.map('leaflet-map', { center: [lat, lon], zoom: 15, zoomControl: true, dragging: true, scrollWheelZoom: true, doubleClickZoom: true, touchZoom: true, attributionControl: true });
+    const ATTRIB = 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &middot; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: ATTRIB }).addTo(map);
+    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, pane: 'shadowPane' }).addTo(map);
+    const icon = L.divIcon({ className: '', html: '<span class="geo-pin"><svg class="geo-pin__mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/><circle class="geo-pin__hole" cx="12" cy="9" r="3.1"/></svg></span>', iconSize: [46,50], iconAnchor: [23,45] });
+    L.marker([lat, lon], { icon, keyboard: true, title: 'Smash Crew · Via Regina Elena 56 (posizione civico da confermare)' }).addTo(map);
+  </script>
+</body>
+</html>

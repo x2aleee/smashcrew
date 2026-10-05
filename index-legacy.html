@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smash Crew · Smash Burger Civitanova Marche</title>
+<meta name="description" content="Smash Crew, smash burgeria a Civitanova Marche Via Regina Elena 56. Prenota o ordina su WhatsApp: +39 350 168 4896. Aperto mar--dom 19--23.">
+<meta name="theme-color" content="#0E0B08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Smash Crew",
+  "slogan": "WeGrillYouChill",
+  "telephone": "+39 350 168 4896",
+  "servesCuisine": ["Smash burger", "Hot dog", "Fritti"],
+  "priceRange": "10--20 €",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Via Regina Elena 56",
+    "postalCode": "62012",
+    "addressLocality": "Civitanova Marche",
+    "addressRegion": "MC",
+    "addressCountry": "IT"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "19:00",
+    "closes": "23:00"
+  }],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "80"
+  },
+  "sameAs": [
+    "https://www.instagram.com/smashcrew_burgers/",
+    "https://linktr.ee/smashcrewburgers"
+  ]
+}
+</script>
+<style>
+/* --- VARIABILI ESTETICHE PROMPT --- */
+:root{
+  --bg:#0E0B08;
+  --bg-2:#171210;
+  --ink:#FFF6E9;
+  --muted:#C9BBA8;
+  --yellow:#FFC400;
+  --red:#E63900;
+  --line:#8B7D6B;
+  --tbd-bg:#14100b;
+}
+/* --- RESET BASE --- */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Manrope",system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.5;
+  overflow-x:hidden;
+}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:4px}
+a{color:var(--yellow);text-decoration:none}
+img,svg{display:block}
+/* --- SKIP LINK --- */
+.skip{
+  position:absolute;left:-9999px;top:0;background:var(--yellow);color:#0E0B08;
+  padding:10px 16px;font-weight:800;z-index:100;border-radius:0 0 8px 0;
+}
+.skip:focus{left:0}
+/* --- TYPOGRAFIA --- */
+.kicker{
+  display:inline-block;font-weight:800;letter-spacing:0.36em;
+  text-transform:uppercase;font-size:.72rem;color:var(--red);
+  margin-bottom:6px;
+}
+h2{
+  font-family:"Anton",Impact,sans-serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  line-height:1.05;letter-spacing:.01em;color:var(--ink);
+  max-width:16ch;
+  margin-top:0;
+}
+h1{
+  font-family:"Anton",Impact,sans-serif;
+  font-size:clamp(2.4rem,6vw,3.4rem);
+  line-height:1.0;letter-spacing:.00em;color:var(--ink);
+  max-width:18ch;
+  margin:0 0 12px;
+}
+h1 .croccante{
+  font-family:Georgia,serif;font-style:italic;font-size:inherit;
+  font-weight:normal;letter-spacing:.00em;color:var(--yellow);
+}
+h3{font-family:"Anton",Impact,sans-serif;font-size:1.2rem;letter-spacing:.01em;color:var(--ink);margin:6px 0}
+p{margin:8px 0;font-size:.95rem;color:var(--muted)}
+/* --- LAYOUT UTILI --- */
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.grid{display:grid;gap:16px}
+@media(min-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1440px){.grid{grid-template-columns:repeat(4,1fr)}}
+/* --- HEADER STICKY (SEC-01) --- */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(14,11,8,.85);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  padding:12px 0;
+}
+.head-in{
+  max-width:1160px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.logo{
+  display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;
+}
+.logo strong{
+  font-family:"Anton",sans-serif;font-size:1.4rem;letter-spacing:.04em;
+  color:var(--ink);text-transform:uppercase;
+}
+.logo strong em{font-style:normal;color:var(--yellow)}
+.logo span{
+  font-size:.65rem;font-weight:700;letter-spacing:.3em;color:var(--red);text-transform:uppercase;
+}
+nav{display:none;gap:16px;align-self:center}
+nav a{
+  color:var(--muted);font-weight:600;font-size:.88rem;text-transform:uppercase;letter-spacing:.08em;
+}
+nav a:hover{color:var(--yellow)}
+.head-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--yellow);color:#0E0B08;text-decoration:none;font-weight:800;
+  padding:10px 18px;border-radius:6px;border:2px solid var(--yellow);
+  box-shadow:2px 2px 0 rgba(0,0,0,.4);font-size:.9rem;white-space:nowrap;
+}
+.head-cta:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,.5)}
+@media(min-width:860px){nav{display:flex}}
+/* --- HERO (SEC-02) --- */
+.hero{
+  position:relative;overflow-hidden;
+  padding:140px 0 100px;
+  background:var(--bg);
+}
+.hero .kicker{
+  position:relative;bottom:4px;display:inline-block;font-weight:800;letter-spacing:0.36em;
+  text-transform:uppercase;font-size:.68rem;color:var(--red);
+  margin-bottom:6px;line-height:1;
+}
+.hero .kicker span{color:var(--yellow)}
+.hero h1{
+  font-family:"Anton",Impact,sans-serif;
+  font-size:clamp(2.4rem,6vw,3.4rem);
+  line-height:1.0;letter-spacing:.00em;color:var(--ink);
+  max-width:18ch;margin:4px 0 12px;
+}
+.hero h1 .croccante{
+  font-family:Georgia,serif;font-style:italic;font-size:inherit;
+  font-weight:normal;letter-spacing:.00em;color:var(--yellow);
+}
+.hero .sub{
+  font-size:1.05rem;color:var(--muted);font-weight:600;max-width:42ch;
+}
+.hero .sub strong{color:var(--yellow)}
+.hero .cta{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;
+}
+.hero .btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:800;text-decoration:none;font-size:1rem;
+  padding:14px 22px;border-radius:8px;border:2px solid transparent;
+  box-shadow:2px 2px 0 rgba(0,0,0,.45);transition:transform .12s ease,box-shadow .12s ease;
+}
+.hero .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+.hero .btn-yellow{
+  background:var(--yellow);color:#0E0B08;border-color:var(--yellow);
+}
+.hero .btn-ghost{
+  background:transparent;color:var(--ink);border-color:var(--line);
+}
+.hero .btn-ghost:hover{border-color:var(--yellow)}
+.hero .badge{
+  display:inline-flex;align-items:center;gap:6px;
+  border:2px solid var(--line);background:var(--bg-2);
+  color:var(--muted);font-weight:700;font-size:.82rem;
+  padding:6px 12px;border-radius:999px;margin-bottom:16px;
+}
+.hero .badge span{color:var(--yellow)}
+.hero .marquee{
+  background:var(--yellow);color:#0E0B08;overflow-hidden;
+  border-top:2px solid var(--red);border-bottom:2px solid var(--red);
+  padding:6px 0;font-family:"Anton",sans-serif;text-transform:uppercase;
+  font-size:.95rem;letter-spacing:.06em;white-space:nowrap;
+  margin:16px 0;
+}
+.hero .marquee span{padding:0 14px}
+@media(max-width:860px){
+  .hero{padding:100px 0 80px}
+  .hero .kicker{font-size:.6rem}
+  .hero h1{font-size:clamp(2rem,5vw,2.8rem)}
+}
+/* --- MENU DEI PANINI (SEC-02B) --- */
+.menu-panini{
+  background:#050505;
+  background-image:radial-gradient(60% 45% at 50% 0%, rgba(255,85,0,.09), transparent 70%);
+  border-bottom:2px solid var(--line);
+  padding:72px 0;
+}
+.menu-panini .kicker{margin-bottom:4px}
+.mp-title{
+  font-family:"Anton",Impact,sans-serif;
+  font-size:clamp(2.6rem,7vw,5rem);
+  line-height:.95;letter-spacing:.01em;
+  text-transform:uppercase;
+  color:var(--ink);
+  max-width:14ch;
+  margin:0 0 32px;
+}
+.mp-grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:640px){.mp-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.mp-grid{grid-template-columns:repeat(3,1fr)}}
+.mp-card{
+  position:relative;display:flex;flex-direction:column;gap:8px;
+  background:var(--bg-2);
+  border:2px solid var(--line);border-radius:12px;
+  padding:22px 18px 18px;
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.mp-card:hover{border-color:#FF5500;transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.55)}
+.mp-card h3{
+  font-family:"Anton",Impact,sans-serif;text-transform:uppercase;
+  font-size:1.3rem;letter-spacing:.02em;color:var(--ink);margin:2px 0;
+}
+.mp-card p{color:var(--muted);font-size:.92rem;flex:1;margin:0}
+.mp-price{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border-top:2px dashed var(--line);padding-top:10px;margin-top:6px;
+}
+.mp-price b{color:var(--yellow);font-size:.95rem}
+.mp-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:12px;
+  background:#FF5500;color:#050505;
+  font-weight:800;font-size:.95rem;text-decoration:none;
+  padding:12px 18px;border-radius:8px;
+  border:2px solid #FF5500;
+  box-shadow:2px 2px 0 rgba(0,0,0,.45);
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease;
+}
+.mp-btn:hover{background:#FF6A1F;border-color:#FF6A1F;transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.55)}
+.mp-btn:active{transform:none;box-shadow:1px 1px 0 rgba(0,0,0,.45)}
+/* --- TRUST / FIDUCIA (SEC-03) --- */
+.trust{
+  padding:32px 0;border-bottom:2px solid var(--line);
+  background:var(--bg-2);
+}
+.trust-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+}
+@media(min-width:768px){.trust-grid{grid-template-columns:repeat(4,1fr)}}
+.trust-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:2px solid var(--line);
+  border-radius:12px;padding:12px 14px;font-weight:700;
+}
+.trust-item svg{width:20px;height:20px;flex:none;fill:var(--yellow)}
+.trust-item small{display:block;font-weight:600;color:var(--muted);font-size:.78rem}
+.trust-item b{font-size:1.02rem}
+@media(min-width:768px){.trust-item{padding:14px 16px}}
+/* --- BEST SELLER (SEC-04) --- */
+.sec{border-bottom:2px solid var(--line);border-top:2px solid var(--line);padding:40px 0}
+.sec-alt{background:var(--bg-2)}
+.bs-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:640px){.bs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.bs-grid{grid-template-columns:repeat(3,1fr)}}
+.card{
+  background:var(--card);border:2px solid var(--line);border-radius:12px;
+  padding:18px;position:relative;display:flex;flex-direction:column;gap:8px;
+}
+.card.flag{border-color:var(--yellow)}
+.card h3{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:1.15rem;letter-spacing:.02em}
+.card p{color:var(--muted);font-size:.9rem;flex:1}
+.tag{
+  position:absolute;top:-11px;right:10px;
+  background:var(--red);color:#fff;font-weight:800;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.1em;
+  padding:4px 8px;border-radius:999px;border:2px solid var(--bg);
+}
+.price{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  border-top:2px dashed var(--line);padding-top:8px;
+}
+.price b{color:var(--yellow);font-size:.95rem}
+.tbd{
+  font-size:.68rem;font-weight:800;color:#0E0B08;background:var(--yellow);
+  border-radius:4px;padding:2px 6px;letter-spacing:.04em;white-space:nowrap;
+}
+/* --- MENU COMPLETO (SEC-05) --- */
+.menu-cols{display:grid;gap:20px}
+@media(min-width:820px){.menu-cols{grid-template-columns:1fr 1fr}}
+.menu-cat h3{
+  font-family:"Anton",sans-serif;text-transform:uppercase;font-size:1.2rem;
+  color:var(--yellow);margin-bottom:4px;
+}
+.menu-cat > p{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.dish{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:10px 0;border-bottom:1px solid var(--line);
+}
+.dish:last-child{border-bottom:none}
+.dish-name{font-weight:800}
+.dish-desc{color:var(--muted);font-size:.85rem}
+.menu-note{
+  margin-top:24px;background:var(--card);border:2px solid var(--yellow);
+  border-radius:12px;padding:16px 20px;display:flex;flex-wrap:wrap;
+  align-items:center;gap:12px;justify-content:space-between;
+  box-shadow:2px 2px 0 rgba(0,0,0,.4);
+}
+.menu-note p{max-width:50ch;font-size:.95rem}
+.menu-note b{color:var(--yellow)}
+/* --- METODO (SEC-06) --- */
+.steps{display:grid;gap:14px;counter-reset:step}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{
+  background:var(--card);border:2px solid var(--line);border-radius:12px;
+  padding:20px 18px;position:relative;
+}
+.step::before{
+  counter-increment:step;content:"0" counter(step);
+  font-family:"Anton",sans-serif;font-size:2rem;color:transparent;
+  -webkit-text-stroke:2px var(--red);display:block;margin-bottom:6px;
+}
+.step h3{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:1rem;margin-bottom:4px}
+.step p{color:var(--muted);font-size:.88rem}
+/* --- RECENSIONI (SEC-07) --- */
+.rating-big{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;
+}
+.rating-num{
+  font-family:"Anton",sans-serif;font-size:3.2rem;line-height:1;color:var(--yellow);
+}
+.stars{display:flex;gap:2px}
+.stars svg{width:20px;height:20px;fill:var(--yellow)}
+.rating-big p{color:var(--muted);font-weight:600}
+.quote-grid{display:grid;gap:14px}
+@media(min-width:820px){.quote-grid{grid-template-columns:repeat(3,1fr)}}
+.quote{
+  background:var(--card);border:2px solid var(--line);border-radius:12px;
+  padding:18px;position:relative;
+}
+.quote svg{width:22px;height:22px;fill:var(--red);margin-bottom:8px}
+.quote p{font-weight:600;font-size:.98rem}
+.quote footer{margin-top:10px;color:var(--muted);font-size:.8rem;font-weight:700}
+/* --- COME ORDINARE (SEC-08) --- */
+.order-grid{display:grid;gap:14px}
+@media(min-width:820px){.order-grid{grid-template-columns:repeat(3,1fr)}}
+.order-card{
+  display:flex;flex-direction:column;gap:6px;text-decoration:none;
+  background:var(--card);border:2px solid var(--line);border-radius:12px;
+  padding:20px;color:var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,.4);
+}
+.order-card:hover{border-color:var(--yellow);transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+.order-card .oc-tag{
+  align-self:flex-start;font-size:.65rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 8px;border-radius:4px;
+}
+.oc-w .oc-tag{background:var(--yellow);color:#0E0B08}
+.oc-d .oc-tag{background:var(--red);color:#fff}
+.oc-c .oc-tag{background:var(--ink);color:#0E0B08}
+.order-card h3{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:1.2rem}
+.order-card p{color:var(--muted);font-size:.88rem;flex:1}
+.order-card .go{font-weight:800;color:var(--yellow)}
+.je-note{margin-top:16px;color:var(--muted);font-size:.88rem}
+.je-note b{color:var(--ink)}
+/* --- INFO PRATICHE / DOVE (SEC-09) --- */
+.where-grid{display:grid;gap:20px}
+@media(min-width:920px){.where-grid{grid-template-columns:1fr 1.2fr;align-items:start}}
+.info-list{display:grid;gap:10px;margin-top:4px}
+.info-item{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--card);border:2px solid var(--line);border-radius:10px;padding:14px;
+}
+.info-item svg{width:18px;height:18px;flex:none;fill:var(--yellow);margin-top:1px}
+.info-item b{display:block;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.info-item span{font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chip{
+  border:2px solid var(--line);background:var(--bg);border-radius:999px;
+  padding:3px 10px;font-size:.75rem;font-weight:700;color:var(--muted);
+}
+.map-box{
+  border:2px solid var(--line);border-radius:12px;overflow:hidden;
+  box-shadow:2px 2px 0 rgba(0,0,0,.4);background:var(--card);
+}
+.map-box iframe{width:100%;height:280px;border:0;display:block}
+.map-box .map-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:6px;
+  padding:10px 12px;flex-wrap:wrap;
+}
+.map-box .map-foot span{font-weight:700;font-size:.85rem;color:var(--muted)}
+.map-link{
+  font-weight:800;color:#0E0B08;background:var(--yellow);text-decoration:none;
+  padding:6px 12px;border-radius:6px;font-size:.8rem;white-space:nowrap;
+}
+/* --- FAQ (SEC-10) --- */
+.faq{display:grid;gap:8px;max-width:760px}
+details{
+  background:var(--card);border:2px solid var(--line);border-radius:10px;
+  padding:0;overflow:hidden;
+}
+details[open]{border-color:var(--yellow)}
+summary{
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+  align-items:center;gap:10px;padding:12px 14px;font-weight:800;font-size:.98rem;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"+";font-family:"Anton",sans-serif;font-size:1.2rem;color:var(--red);
+  transition:transform .2s ease;
+}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 14px 10px;color:var(--muted);font-size:.92rem}
+/* --- FOOTER (SEC-11) --- */
+footer{
+  border-top:2px solid var(--line);background:var(--bg-2);
+  padding:32px 0 60px;
+}
+@media(min-width:768px){footer{padding-bottom:32px}}
+.foot-grid{
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-start;
+}
+.foot-brand strong{
+  font-family:"Anton",sans-serif;font-size:1.4rem;text-transform:uppercase;
+}
+.foot-brand strong em{font-style:normal;color:var(--yellow)}
+.foot-brand p{color:var(--muted);font-size:.85rem;margin-top:4px}
+.foot-links{display:flex;gap:16px;flex-wrap:wrap}
+.foot-links a{color:var(--muted);text-decoration:none;font-weight:700;font-size:.85rem}
+.foot-links a:hover{color:var(--yellow)}
+.foot-copy{
+  margin-top:20;padding-top:12px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.78rem;
+}
+/* --- CALL BAR MOBILE (SEC-12) --- */
+.callbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:60;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border-top:2px solid var(--line);
+}
+.callbar a{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 6px;font-weight:800;font-size:.8rem;text-decoration:none;
+}
+.callbar svg{width:16px;height:16px}
+.cb-tel{background:var(--ink);color:#0E0B08}
+.cb-wa{background:var(--yellow);color:#0E0B08}
+.cb-dl{background:var(--red);color:#fff}
+@media(min-width:860px){.callbar{display:none}}
+/* --- PREFERS-REDUCED-MOTION --- */
+@media(prefers-reduced-motion:reduce){
+  .marquee-track{animation:none}
+  .btn:hover{transform:none;box-shadow:var(--shadow)}
+  .mp-card:hover,.mp-btn:hover{transform:none;box-shadow:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#top">Salta al contenuto</a>
+
+<header>
+  <div class="head-in">
+    <a class="logo" href="#top" aria-label="Smash Crew, torna all'inizio">
+      <strong>Smash<em>Crew</em></strong>
+      <span>WeGrillYouChill</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+      <a href="#menu">Menu</a>
+      <a href="#metodo">Metodo</a>
+      <a href="#recensioni">Recensioni</a>
+      <a href="#dove">Dove siamo</a>
+    </nav>
+    <a class="head-cta" href="https://wa.me/393501684896" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.4Z"/></svg>
+      Ordina su WhatsApp
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="hero-badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+        Civitanova Marche · Via Regina Elena 56
+      </p>
+      <h1 id="hero-title">Lo smash vero a <span class="croccante">Civitanova.</span><span class="fill">Crosta croccante</span>, cuore succoso.</h1>
+      <p class="sub">Smash Crew è la smash burgeria di Via Regina Elena 56: <strong>smash burger, hot dog e altre cose buone</strong>, pressati al momento sulla piastra rovente.</p>
+      <div class="cta">
+        <a class="btn btn-yellow" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.4Z"/></svg>
+          Ordina su WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#menu">Vedi il menu</a>
+      </div>
+      <p class="hero-note">
+        Dal martedì alla domenica, 19:00–23:00 · Consegna a domicilio anche su
+        <a href="https://deliveroo.it/menu/civitanova-marche/civitanova-marche/smashcrew-civitanova" target="_blank" rel="noopener">Deliveroo</a>
+      </p>
+      <div class="hero-stamp" aria-hidden="true">
+        <b>4.9</b>
+        <small>★★★★★ su 80 recensioni</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Smash burgers • Hot dogs • Patate Dippers • Nuggets di pulled pork • WeGrillYouChill •</span>
+      <span>Smash burgers • Hot dogs • Patate Dippers • Nuggets di pulled pork • WeGrillYouChill •</span>
+    </div>
+  </div>
+
+  <!-- MENU DEI PANINI -->
+  <section class="menu-panini" id="menu-panini" aria-labelledby="mp-title">
+    <div class="wrap">
+      <p class="kicker">Menu dei panini</p>
+      <h2 class="mp-title" id="mp-title">I nostri pezzi forti</h2>
+      <div class="mp-grid">
+        <article class="mp-card">
+          <span class="tag">Il classico</span>
+          <h3>Classic Smash</h3>
+          <p>Doppio smash 90 g, cheddar fuso, cipolla grigliata, pickles e salsa Crew nel pane tostato al burro.</p>
+          <div class="mp-price"><b>Smash burger</b><span class="tbd">DA CONFERMARE</span></div>
+          <a class="mp-btn" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">Ordina su WhatsApp</a>
+        </article>
+        <article class="mp-card">
+          <span class="tag">Extra fonduta</span>
+          <h3>Cheese Overload</h3>
+          <p>Doppio smash, doppio cheddar fuso, salsa cheese cremosa e cipolla croccante. Per chi vive di formaggio.</p>
+          <div class="mp-price"><b>Smash burger</b><span class="tbd">DA CONFERMARE</span></div>
+          <a class="mp-btn" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">Ordina su WhatsApp</a>
+        </article>
+        <article class="mp-card">
+          <span class="tag">Piccante</span>
+          <h3>Spicy Crew</h3>
+          <p>Doppio smash, cheddar piccante, jalapeños freschi e salsa Crew fire. Il morso che brucia bene.</p>
+          <div class="mp-price"><b>Smash burger</b><span class="tbd">DA CONFERMARE</span></div>
+          <a class="mp-btn" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">Ordina su WhatsApp</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIDUCIA -->
+  <section class="trust" aria-label="Perché scegliere Smash Crew">
+    <div class="wrap">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2l-6.1 3.4 1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+          <div><b>4.9 su 80 recensioni</b><small>il locale che torna</small></div>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v11H4a2 2 0 0 0-2 2v7h7v-7l3-3V2H7Zm2 2h2v5.2l-2 2V4ZM20 2h-4v10l3 3v7h3v-7a2 2 0 0 0-2-2h-1V2Z"/></svg>
+          <div><b>Spesa media 10–20 €</b><small>prezzi onesti</small></div>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7h-3V6a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-9-1a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4V6Z"/></svg>
+          <div><b>Asporto e delivery</b><small>o mangi qui da noi</small></div>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <div><b>Prenotazioni ok</b><small>chiama e tieni il posto</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEST SELLER -->
+  <section class="sec" id="bestseller" aria-labelledby="bs-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">I più ordinati</p>
+        <h2 id="bs-title">Best seller della Crew</h2>
+        <p>Cinque piatti che escono dalla piastra più di tutto il resto. Se è la prima volta, parti da qui.</p>
+      </div>
+      <div class="bs-grid">
+        <article class="card flag">
+          <span class="tag">Il numero uno</span>
+          <h3>Smash Cheese</h3>
+          <p>Doppio smash da 90 grammi, cheddar fuso, cipolla grigliata, pickles e salsa Crew. Pane morbido tostato al burro.</p>
+          <div class="price"><b>Smash burger</b><span class="tbd">DA CONFERMARE</span></div>
+        </article>
+        <article class="card">
+          <h3>Smash Doppio</h3>
+          <p>La versione doppia dello smash che ci ha resi famosi: più carne, più crosta, più succo. Composizione DA CONFERMARE sul catalogo.</p>
+          <div class="price"><b>Smash burger</b><span class="tbd">DA CONFERMARE</span></div>
+        </article>
+        <article class="card">
+          <h3>Hot Dog</h3>
+          <p>Würstel croccante nella panina soffice, con salsa Crew. Il compagno perfetto dello smash, per chi vuole cambiare strada.</p>
+          <div class="price"><b>Hot dog</b><span class="tbd">DA CONFERMARE</span></div>
+        </article>
+        <article class="card">
+          <h3>Patate Dippers</h3>
+          <p>Le patate a immersione totale: crosta esterna dura, interno morbido. Fatte per essere tuffate nelle salse.</p>
+          <div class="price"><b>Fritti</b><span class="tbd">DA CONFERMARE</span></div>
+        </article>
+        <article class="card">
+          <h3>Nuggets di pulled pork</h3>
+          <p>Pulled pork in crosticina dorata: dolce, affumicato, uno tira l'altro. Fritti abbondanti, come dicono le recensioni.</p>
+          <div class="price"><b>Fritti</b><span class="tbd">DA CONFERMARE</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU COMPLETO -->
+  <section class="sec sec-alt" id="menu" aria-labelledby="menu-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Il menu</p>
+        <h2 id="menu-title">Tutto quello che esce dalla piastra</h2>
+        <p>Smash burger, hot dog e fritti. Zero fronzoli, tanta crosta. I prezzi vivi sono sempre sul catalogo WhatsApp, aggiornato dal locale.</p>
+      </div>
+      <div class="menu-cols">
+        <div class="menu-cat">
+          <h3>Smash Burgers</h3>
+          <p>Panini pressati al momento, con carne tritata fresca.</p>
+          <div class="dish">
+            <div><p class="dish-name">Smash Cheese</p><p class="dish-desc">Doppio smash 90 g, cheddar fuso, cipolla grigliata, pickles, salsa Crew, pane tostato al burro.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+          <div class="dish">
+            <div><p class="dish-name">Smash Doppio</p><p class="dish-desc">Doppia porzione di smash, per la fame vera. Composizione DA CONFERMARE.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+          <div class="dish">
+            <div><p class="dish-name">Smash singolo</p><p class="dish-desc">Un disco di carne, crosta e succo in equilibrio. Composizione DA CONFERMARE.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+        </div>
+        <div class="menu-cat">
+          <h3>Hot Dog</h3>
+          <p>Per chi preferisce la strada classica.</p>
+          <div class="dish">
+            <div><p class="dish-name">Hot Dog</p><p class="dish-desc">Würstel croccante, panina soffice, salsa Crew.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+          <div class="dish">
+            <div><p class="dish-name">Hot Dog doppio</p><p class="dish-desc">Due würstel, stessa panina, doppio morso. DA CONFERMARE.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+        </div>
+        <div class="menu-cat">
+          <h3>Fritti & Extra</h3>
+          <p>Il lato croccante del menu.</p>
+          <div class="dish">
+            <div><p class="dish-name">Patate Dippers</p><p class="dish-desc">Crosta dura fuori, cuore morbido dentro.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+          <div class="dish">
+            <div><p class="dish-name">Nuggets di pulled pork</p><p class="dish-desc">Pulled pork in crosticina dorata.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+          <div class="dish">
+            <div><p class="dish-name">Salse della Crew</p><p class="dish-desc">Salsa Crew e le altre: chiedi l'elenco aggiornato in chat.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+        </div>
+        <div class="menu-cat">
+          <h3>Da bere</h3>
+          <p>Bibite fresche per accompagnare lo smash.</p>
+          <div class="dish">
+            <div><p class="dish-name">Bibite e acqua</p><p class="dish-desc">Elenco e formati DA CONFERMARE sul catalogo WhatsApp.</p></div>
+            <span class="tbd">DA CONFERMARE</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-note">
+        <p><b>Nota prezzi onesta:</b> la spesa media da noi sta tra <b>10 e 20 €</b>. I prezzi di ogni voce cambiano col mercato: il menu aggiornato vive sul catalogo WhatsApp, sempre aggiornato dalla Crew.</p>
+        <a class="btn btn-yellow" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.4Z"/></svg>
+          Menu aggiornato su WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- METODO -->
+  <section class="sec" id="metodo" aria-labelledby="metodo-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Il metodo</p>
+        <h2 id="metodo-title">Come si fa uno smash vero</h2>
+        <p>Tre gesti, nessuna scorciatoia. È da qui che nasce la crosta.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>La palla</h3>
+          <p>Si parte da una palla di carne tritata, compatta. Niente pressata anticipata: la carne lavora solo quando tocca il ferro.</p>
+        </div>
+        <div class="step">
+          <h3>Lo smash</h3>
+          <p>Sulla piastra rovente la palla viene schiacciata con la pressa. Il contatto violento col metallo caldo crea la crosta: la reazione che sigilla i succhi e forma la croccantezza.</p>
+        </div>
+        <div class="step">
+          <h3>Il montaggio</h3>
+          <p>Giro veloce, formaggio fuso, e si chiude nel pane tostato al burro con la salsa Crew. Dal ferro alla mano in pochi minuti: si mangia caldo, come va mangiato.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENSIONI -->
+  <section class="sec sec-alt" id="recensioni" aria-labelledby="rec-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">La prova</p>
+        <h2 id="rec-title">Chi è passato, è tornato</h2>
+      </div>
+      <div class="rating-big">
+        <span class="rating-num">4.9</span>
+        <div>
+          <div class="stars" role="img" aria-label="Valutazione 4.9 su 5 stelle">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2l-6.1 3.4 1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2l-6.1 3.4 1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2l-6.1 3.4 1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2l-6.1 3.4 1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+          </div>
+          <p>su 80 recensioni di clienti veri</p>
+        </div>
+      </div>
+      <div class="quote-grid">
+        <blockquote class="quote">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4H5v-3a1 1 0 0 1 1-1h4V7Zm11 0h-4a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4h-3v-3a1 1 0 0 1 1-1h4V7Z"/></svg>
+          <p>«Hamburger top con ingredienti di qualità e fritti abbondanti.»</p>
+          <footer>— Recensione cliente</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4H5v-3a1 1 0 0 1 1-1h4V7Zm11 0h-4a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4h-3v-3a1 1 0 0 1 1-1h4V7Z"/></svg>
+          <p>«Smash burger di qualità con pane e carne ottimi.»</p>
+          <footer>— Recensione cliente</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4H5v-3a1 1 0 0 1 1-1h4V7Zm11 0h-4a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h2v-4h-3v-3a1 1 0 0 1 1-1h4V7Z"/></svg>
+          <p>«Bravi, veloci, simpatici e panini ottimi.»</p>
+          <footer>— Recensione cliente</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME ORDINARE -->
+  <section class="sec" id="ordinare" aria-labelledby="ord-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Tre modi</p>
+        <h2 id="ord-title">Come ordinare da Smash Crew</h2>
+        <p>Scegli il canale che preferisci: la piastra è la stessa.</p>
+      </div>
+      <div class="order-grid">
+        <a class="order-card oc-w" href="https://wa.me/c/393501684896" target="_blank" rel="noopener">
+          <span class="oc-tag">Il più veloce</span>
+          <h3>Ordina su WhatsApp</h3>
+          <p>Sfoglia il catalogo, scrivici e ritira o fatti consegnare. Il canale diretto con la Crew, senza intermediari.</p>
+          <span class="go">Apri il catalogo →</span>
+        </a>
+        <a class="order-card oc-d" href="https://deliveroo.it/menu/civitanova-marche/civitanova-marche/smashcrew-civitanova" target="_blank" rel="noopener">
+          <span class="oc-tag">A domicilio</span>
+          <h3>Ordina su Deliveroo</h3>
+          <p>Consegna a domicilio a Civitanova Marche. Il menu completo, ordinato in due tocchi dall'app.</p>
+          <span class="go">Vai su Deliveroo →</span>
+        </a>
+        <a class="order-card oc-c" href="tel:+393501684896">
+          <span class="oc-tag">La voce</span>
+          <h3>Chiama la Crew</h3>
+          <p>Chiama o manda un messaggio al 350 168 4896: prenoti un tavolo, ordini per asporto, chiedi info.</p>
+          <span class="go">Chiama il 350 168 4896 →</span>
+        </a>
+      </div>
+      <p class="je-note">Ci trovi anche su <b>Just Eat</b>: cerca <b>Smash Crew Civitanova Marche</b> nell'app. Testo senza link.</p>
+    </div>
+  </section>
+
+  <!-- DOVE SIAMO -->
+  <section class="sec sec-alt" id="dove" aria-labelledby="dove-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Info pratiche</p>
+        <h2 id="dove-title">Dove siamo e quando ci troviamo</h2>
+      </div>
+      <div class="where-grid">
+        <div>
+          <div class="info-list">
+            <div class="info-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+              <div><b>Indirizzo</b><span>Via Regina Elena 56, 62012 Civitanova Marche (MC)</span></div>
+            </div>
+            <div class="info-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 10.4 4.2 2.4-.8 1.3L11 13V7h2v5.4Z"/></svg>
+              <div><b>Orari</b><span>Dal martedì alla domenica · 19:00–23:00</span></div>
+            </div>
+            <div class="info-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+              <div><b>Telefono e WhatsApp</b><span><a href="tel:+393501684896">+39 350 168 4896</a></span></div>
+            </div>
+            <div class="info-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7h-3V6a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-9-1a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4V6Z"/></svg>
+              <div><b>Servizi</b>
+                <span class="chips">
+                  <span class="chip">Consumo sul posto</span>
+                  <span class="chip">Asporto</span>
+                  <span class="chip">Consegna a domicilio</span>
+                  <span class="chip">Prenotazioni</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <p class="inclusive">Locale piccolo e di tendenza, a <b>gestione femminile</b>, ambiente casual e <b>LGBTQ friendly</b>: qui c'è posto per tutti. WeGrillYouChill.</p>
+        </div>
+        <div class="map-box">
+          <iframe
+            title="Mappa: Smash Crew, Via Regina Elena 56, Civitanova Marche"
+            src="https://www.google.com/maps?q=Via+Regina+Elena+56,+62012+Civitanova+Marche+MC&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+          <div class="map-foot">
+            <span>Via Regina Elena 56 · Civitanova Marche</span>
+            <a class="map-link" href="https://maps.app.goo.gl/cMg8nHh9HZxtc9dw5" target="_blank" rel="noopener">Indicazioni su Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Domande frequenti</p>
+        <h2 id="faq-title">Quello che ci chiedete sempre</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Quando siete aperti?</summary>
+          <p>Dal martedì alla domenica, dalle 19:00 alle 23:00. Il sabato e la domenica sera è il momento più affollato: se vuoi il posto sicuro, prenota chiamando il 350 168 4896.</p>
+        </details>
+        <details>
+          <summary>Come posso ordinare?</summary>
+          <p>In tre modi: sul catalogo WhatsApp per contatto diretto e asporto, su Deliveroo per la consegna a domicilio, oppure chiamandoci al 350 168 4896. Ci trovi anche su Just Eat cercando "Smash Crew Civitanova Marche".</p>
+        </details>
+        <details>
+          <summary>Fate consegna a domicilio?</summary>
+          <p>Sì, a domicilio a Civitanova Marche tramite i canali di consegna. Tempi e zone di consegna dipendono dal servizio attivo in quel momento: controllali direttamente sull'app al momento dell'ordine.</p>
+        </details>
+        <details>
+          <summary>Quanto si spende?</summary>
+          <p>La spesa media sta tra 10 e 20 euro a persona. Per i prezzi aggiornati di ogni voce del menu, il riferimento è il catalogo WhatsApp: viene aggiornato direttamente dalla Crew.</p>
+        </details>
+        <details>
+          <summary>Accettate prenotazioni?</summary>
+          <p>Sì. Il locale è piccolo, quindi la sera nei weekend si riempie in fretta: una chiamata al 350 168 4896 e il posto è tuo.</p>
+        </details>
+        <details>
+          <summary>Com'è l'ambiente?</summary>
+          <p>Casual, giovane e inclusivo: gestione femminile, ambiente LGBTQ friendly e un tono diretto che ci rappresenta. Vieni come sei, noi intanto accendiamo la piastra.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <strong>Smash<em>Crew</em></strong>
+        <p>Smash burgers, hot dog e altre cose buone.<br>Via Regina Elena 56 · 62012 Civitanova Marche (MC)<br>Dal martedì alla domenica · 19:00–23:00</p>
+      </div>
+      <div class="foot-links">
+        <a href="https://wa.me/c/393501684896" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://deliveroo.it/menu/civitanova-marche/civitanova-marche/smashcrew-civitanova" target="_blank" rel="noopener">Deliveroo</a>
+        <a href="https://www.instagram.com/smashcrew_burgers/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://linktr.ee/smashcrewburgers" target="_blank" rel="noopener">Linktree</a>
+        <a href="https://maps.app.goo.gl/cMg8nHh9HZxtc9dw5" target="_blank" rel="noopener">Mappa</a>
+      </div>
+    </div>
+    <p class="foot-copy">© 2026 Smash Crew · Civitanova Marche · WeGrillYouChill</p>
+  </div>
+</footer>
+
+<!-- CALL BAR MOBILE -->
+<nav class="callbar" aria-label="Azioni rapide ordine">
+  <a class="cb-tel" href="tel:+393501684896">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+    Chiama
+  </a>
+  <a class="cb-wa" href="https://wa.me/393501684896" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.6c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.4Z"/></svg>
+    WhatsApp
+  </a>
+  <a class="cb-dl" href="https://deliveroo.it/menu/civitanova-marche/civitanova-marche/smashcrew-civitanova" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 4h18v2l-2 2v7a2 2 0 0 1-2 2h-3l3 4h-2l-3-4h-2l-3 4H5l3-4H7a2 2 0 0 1-2-2V8L3 6V4Z"/></svg>
+    Deliveroo
+  </a>
+</nav>
+
+</body>
+</html>

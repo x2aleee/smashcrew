@@ -1,0 +1,27 @@
+# Profili Chrome di lavoro e diagnosi: non sono parte del sito
+_*
+*.log
+*.tmp
+# Backup e iterazioni vecchie del sito: solo file di lavoro
+.backup-*
+.pre-*
+*.bak*
+index.html.bak*
+# Screenshot di controllo e preview non referenziati dal sito
+preview-desktop.png
+plate-join-check.png
+full-a.png
+full-b.png
+# Iterazioni e preview di lavoro, non parte del sito live
+bite-preview.html
+compose_smash_asset.py
+font-preview.html
+glovo-confronto.html
+index-legacy.html
+index-v1.html
+index-v2.html
+ingredients-preview.html
+manifesto-layout-preview.html
+manifesto-preview.html
+# Master MOV non referenziato dal sito (20MB, sorgente di morso.webm)
+assets/morso-master.mov

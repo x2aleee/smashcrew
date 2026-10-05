@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMASH typographic artwork — standalone asset &amp; integration snippets</title>
+  <style>
+    body { background: #000000; color: #eaeaea; font-family: system-ui, sans-serif; margin: 0; padding: 48px 24px; }
+    h1 { font-size: 1.3rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    h2 { font-size: 1rem; color: #FF5500; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 48px; }
+    p { color: #9a9a9a; max-width: 70ch; line-height: 1.5; }
+    pre { background: #111; border: 1px solid #222; padding: 16px; overflow-x: auto; color: #cfcfcf; font-size: 0.82rem; }
+    .stage { background: #000; border: 1px solid #1c1c1c; padding: 24px; display: flex; justify-content: center; }
+    .stage img { width: 100%; max-width: 1100px; height: auto; object-fit: contain;
+                 filter: drop-shadow(0 0 25px rgba(255, 85, 0, 0.4)); }
+    code.inline { background: #151515; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>SMASH — standalone typographic artwork</h1>
+  <p>Asset: <code class="inline">demo/smashcrew/assets/smash-typographic-art.png</code> — 3844×1368 px,
+     pure black background, texture inside the glyphs taken from the real sizzle video
+     (<code class="inline">assets/video-piastra.webm</code>), single #FF5500 stroke, ember glow baked in.</p>
+
+  <div class="stage">
+    <img src="assets/smash-typographic-art.png" alt="SMASH typographic artwork" />
+  </div>
+
+  <h2>Snippet A — standalone image (recommended)</h2>
+  <pre>&lt;div class="relative flex justify-center items-center w-full"&gt;
+  &lt;img
+    src="assets/smash-typographic-art.png"
+    alt="SMASH typographic artwork"
+    class="w-full max-w-4xl object-contain filter drop-shadow-[0_0_25px_rgba(255,85,0,0.4)]"
+  /&gt;
+&lt;/div&gt;</pre>
+
+  <h2>Snippet B — CSS text version (live font, no image)</h2>
+  <pre>&lt;link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap" rel="stylesheet"&gt;
+
+&lt;div class="smash-typographic"&gt;SMASH&lt;/div&gt;
+
+&lt;style&gt;
+.smash-typographic {
+  font-family: 'Bebas Neue', 'Anton', Impact, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(96px, 24vw, 380px);
+  line-height: 0.9;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 2px #FF5500;
+  filter: drop-shadow(0 0 15px rgba(255, 85, 0, 0.7));
+  /* optional photographic fill (static texture only): */
+  /* background: url('assets/patty-frame.jpg') center/cover;
+     -webkit-background-clip: text; background-clip: text; */
+}
+&lt;/style&gt;</pre>
+  <p>Note on Snippet B: with <code class="inline">background-clip: text</code> the fill is a static
+     texture frame and the stroke stays vector-sharp; the moving sizzle video inside the letters
+     remains exclusive to the canvas engine in <code class="inline">index.html</code>.</p>
+
+  <h2>Regenerating the asset</h2>
+  <pre>cd demo/smashcrew &amp;&amp; python compose_smash_asset.py</pre>
+  <p>Inputs: <code class="inline">assets/fonts/BebasNeue-Regular.ttf</code> (OFL license) and
+     <code class="inline">assets/patty-frame.png</code> (frame 0 of the sizzle video).</p>
+</body>
+</html>

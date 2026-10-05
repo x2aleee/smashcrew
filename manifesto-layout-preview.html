@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta name="description" content="Confronto di cinque layout per il manifesto Smash Crew, con fotografie reali ed effetto duotone arancio." />
+  <title>Manifesto — cinque layout | Smash Crew</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Kanit:wght@900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0A0A0A;
+      --panel: #141414;
+      --paper: #F4F1ED;
+      --muted: #A09B95;
+      --rule: rgba(255, 255, 255, .16);
+      --orange: #FF5500;
+      --display: 'Kanit', sans-serif;
+      --body: 'DM Sans', sans-serif;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--paper);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: 12px;
+      left: 12px;
+      padding: 12px 16px;
+      transform: translateY(-160%);
+      background: var(--orange);
+      color: #0A0A0A;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(100% - 48px, 1360px);
+      margin-inline: auto;
+    }
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-block: 24px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .brand, .masthead-note, .eyebrow, .option-index, .photo-label, .jump-nav a {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .brand {
+      font-family: var(--display);
+      font-size: 1.05rem;
+      letter-spacing: .1em;
+      text-decoration: none;
+    }
+    .masthead-note { color: var(--muted); text-align: right; }
+    .intro {
+      position: relative;
+      padding-block: clamp(68px, 11vw, 144px) clamp(54px, 8vw, 100px);
+    }
+    .intro::after {
+      position: absolute;
+      right: 2%;
+      bottom: 12%;
+      width: clamp(80px, 14vw, 190px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 85, 0, .38);
+      border-radius: 50%;
+      content: '';
+      pointer-events: none;
+    }
+    .eyebrow, .option-index { margin: 0; color: var(--orange); }
+    h1, h2, h3, p, figure { margin-top: 0; }
+    h1, h2, h3 {
+      font-family: var(--display);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .intro h1 {
+      max-width: 10ch;
+      margin: 20px 0 18px;
+      font-size: clamp(4rem, 12vw, 10rem);
+      letter-spacing: -.055em;
+      line-height: .76;
+    }
+    .intro h1 span, .accent { color: var(--orange); }
+    .intro-copy {
+      max-width: 58ch;
+      margin-bottom: 30px;
+      color: #C6C1BB;
+      font-size: clamp(1rem, 1.7vw, 1.16rem);
+      line-height: 1.65;
+    }
+    .jump-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .jump-nav a {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      padding: 0 14px;
+      border: 1px solid var(--rule);
+      color: #D4D0CB;
+      text-decoration: none;
+      transition: border-color .25s var(--ease), color .25s var(--ease);
+    }
+    .jump-nav a:hover { border-color: var(--orange); color: var(--orange); }
+
+    .layout-list { padding-bottom: 70px; }
+    .layout {
+      padding-block: clamp(54px, 8vw, 112px);
+      border-top: 1px solid var(--rule);
+      scroll-margin-top: 24px;
+    }
+    .layout-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 28px;
+      margin-bottom: clamp(28px, 5vw, 56px);
+    }
+    .option-index { margin-bottom: 12px; }
+    .layout-name {
+      margin-bottom: 0;
+      font-size: clamp(2.3rem, 6vw, 5.2rem);
+      letter-spacing: -.045em;
+      line-height: .86;
+    }
+    .layout-note {
+      max-width: 31ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.6;
+      text-align: right;
+    }
+    .manifesto-copy {
+      color: #D2CEC8;
+      font-size: clamp(1rem, 1.45vw, 1.12rem);
+      line-height: 1.75;
+    }
+    .manifesto-copy strong { color: var(--paper); font-weight: 700; }
+    .manifesto-copy p:last-child { margin-bottom: 0; }
+
+    /* Un unico trattamento fotografico condiviso da tutte le composizioni. */
+    .photo-card {
+      --tilt: 0deg;
+      position: relative;
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 20px;
+      background: #171514;
+      transform: translateY(0) rotate(var(--tilt));
+      transition:
+        transform .4s var(--ease),
+        border-color .4s var(--ease),
+        box-shadow .4s var(--ease);
+      will-change: transform;
+    }
+    .photo-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.1) brightness(.85);
+      transform: scale(1);
+      transition:
+        filter .4s var(--ease),
+        transform .4s var(--ease);
+    }
+    .photo-card:hover, .photo-card:focus-visible {
+      border-color: var(--orange);
+      box-shadow: 0 0 40px rgba(255, 85, 0, .7);
+      transform: translateY(-6px) rotate(var(--tilt));
+    }
+    .photo-card:hover img, .photo-card:focus-visible img {
+      filter: grayscale(0%) contrast(1) brightness(1);
+      transform: scale(1.05);
+    }
+    .photo-label {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      max-width: calc(100% - 28px);
+      padding: 9px 11px;
+      background: rgba(10, 10, 10, .82);
+      color: var(--paper);
+      font-size: .62rem;
+      pointer-events: none;
+    }
+
+    /* 01 · Headline e testo al centro, due scatti in controcanto. */
+    .classic-intro { max-width: 790px; margin: 0 auto clamp(30px, 5vw, 58px); text-align: center; }
+    .classic-title {
+      margin: 0 0 20px;
+      font-size: clamp(3rem, 9.2vw, 8.1rem);
+      letter-spacing: -.06em;
+      line-height: .79;
+    }
+    .classic-title span, .flow-title span { display: block; }
+    .classic-intro .manifesto-copy { max-width: 62ch; margin-inline: auto; }
+    .classic-photos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: center;
+      gap: clamp(24px, 7vw, 100px);
+      padding: 12px clamp(6px, 4vw, 52px) 18px;
+    }
+    .classic-photos .photo-card:first-child { --tilt: -3deg; }
+    .classic-photos .photo-card:last-child { --tilt: 3deg; }
+
+    /* 02 · Metà pagina editoriale, metà sequenza fotografica sovrapposta. */
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(36px, 8vw, 112px);
+    }
+    .editorial-copy { min-width: 0; max-width: 54ch; }
+    .editorial-title {
+      margin-bottom: 24px;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      letter-spacing: -.06em;
+      line-height: .78;
+    }
+    .editorial-title span { display: block; }
+    .editorial-photos { display: flex; flex-direction: column; gap: 0; padding: 0 2% 48px; }
+    .editorial-photos .photo-card { width: 86%; }
+    .editorial-photos .photo-card + .photo-card {
+      z-index: 1;
+      align-self: flex-end;
+      margin-top: -64px;
+    }
+
+    /* 03 · Tre moduli, titolo a tutta griglia e manifesto al centro. */
+    .bento-title {
+      max-width: 15ch;
+      margin: 0 0 clamp(28px, 5vw, 56px);
+      font-size: clamp(3rem, 8vw, 7.2rem);
+      letter-spacing: -.055em;
+      line-height: .8;
+    }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(12px, 2vw, 24px);
+      align-items: stretch;
+    }
+    .bento-grid .photo-card { min-height: 100%; }
+    .bento-grid .photo-card img { min-height: 100%; aspect-ratio: 4 / 5; }
+    .bento-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(22px, 3.5vw, 48px);
+      border: 1px solid rgba(255, 255, 255, .09);
+      background: var(--panel);
+    }
+    .bento-copy .eyebrow { margin-bottom: 20px; }
+    .bento-copy .manifesto-copy { font-size: clamp(.95rem, 1.3vw, 1.08rem); }
+
+    /* 04 · Copy 40%, parete fotografica 60%. */
+    .wall-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      align-items: center;
+      gap: clamp(28px, 6vw, 84px);
+    }
+    .wall-copy { min-width: 0; max-width: 43ch; }
+    .wall-title {
+      margin-bottom: 24px;
+      font-size: clamp(3rem, 6.5vw, 6rem);
+      letter-spacing: -.055em;
+      line-height: .8;
+    }
+    .wall-title span { display: block; }
+    .wall-photos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: center;
+      gap: clamp(12px, 2vw, 24px);
+    }
+    .wall-photos .photo-card:first-child { transform: translateY(18px) rotate(var(--tilt)); }
+    .wall-photos .photo-card:last-child { transform: translateY(-18px) rotate(var(--tilt)); }
+    .wall-photos .photo-card:hover, .wall-photos .photo-card:focus-visible { transform: translateY(-6px) rotate(var(--tilt)); }
+
+    /* 05 · Un titolo largo apre il flusso, le immagini portano al testo. */
+    .flow-title {
+      margin: 0 0 clamp(28px, 5vw, 56px);
+      font-size: clamp(3.1rem, 10.6vw, 10rem);
+      letter-spacing: -.065em;
+      line-height: .76;
+    }
+    .flow-photos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2.5vw, 32px);
+    }
+    .flow-photos .photo-card img { aspect-ratio: 16 / 10; }
+    .flow-copy {
+      max-width: 70ch;
+      margin: clamp(32px, 6vw, 72px) auto 0;
+      text-align: center;
+    }
+    .flow-copy .eyebrow { margin-bottom: 16px; }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: 24px 36px;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+    .footer strong { color: var(--orange); font-weight: 600; }
+
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 32px, 620px); }
+      .masthead { align-items: flex-start; flex-direction: column; gap: 6px; }
+      .masthead-note { text-align: left; }
+      .intro { padding-top: 72px; }
+      .intro::after { right: 1%; bottom: 8%; }
+      .layout-head { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .layout-note { text-align: left; }
+      .classic-photos { gap: 20px; padding-inline: 4px; }
+      .editorial-grid { grid-template-columns: 1fr; gap: 34px; }
+      .editorial-copy { max-width: 58ch; }
+      .editorial-photos { width: min(100%, 520px); justify-self: center; }
+      .bento-grid { grid-template-columns: 1fr 1fr; }
+      .bento-grid .bento-copy { grid-column: 1 / -1; grid-row: 1; }
+      .bento-grid .photo-card img { aspect-ratio: 4 / 3; }
+      .wall-grid { grid-template-columns: 1fr; gap: 30px; }
+      .wall-copy { max-width: 58ch; }
+      .wall-photos { min-height: 0; }
+      .flow-title { font-size: clamp(3.4rem, 12vw, 6.5rem); }
+    }
+    @media (max-width: 480px) {
+      .shell { width: min(100% - 28px, 420px); }
+      .intro h1 { font-size: clamp(3.8rem, 18vw, 5.6rem); }
+      .intro::after { width: 72px; right: 3%; bottom: 5%; }
+      .jump-nav { gap: 6px; }
+      .jump-nav a { padding-inline: 10px; font-size: .64rem; letter-spacing: .08em; }
+      .layout { padding-block: 54px; }
+      .layout-name { font-size: clamp(2.5rem, 12vw, 3.6rem); }
+      .classic-title { font-size: clamp(2.8rem, 13vw, 4rem); }
+      .classic-photos { grid-template-columns: 1fr; gap: 24px; padding: 4px 12px; }
+      .classic-photos .photo-card { width: 94%; }
+      .classic-photos .photo-card:last-child { justify-self: end; }
+      .editorial-title, .wall-title { font-size: clamp(2.25rem, 11vw, 4.1rem); }
+      .editorial-photos .photo-card { width: 92%; }
+      .editorial-photos .photo-card + .photo-card { margin-top: -36px; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-grid .bento-copy { grid-column: auto; grid-row: auto; }
+      .bento-grid .photo-card img { aspect-ratio: 4 / 3; }
+      .bento-title { font-size: clamp(2.3rem, 11vw, 3.8rem); }
+      .wall-photos { gap: 10px; }
+      .wall-photos .photo-card:first-child { transform: translateY(10px) rotate(var(--tilt)); }
+      .wall-photos .photo-card:last-child { transform: translateY(-10px) rotate(var(--tilt)); }
+      .wall-photos .photo-card:hover, .wall-photos .photo-card:focus-visible { transform: translateY(-6px) rotate(var(--tilt)); }
+      .flow-title { font-size: clamp(2.6rem, 13vw, 4rem); }
+      .flow-photos { grid-template-columns: 1fr; gap: 18px; }
+      .flow-photos .photo-card img { aspect-ratio: 4 / 3; }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#confronto">Salta alle proposte</a>
+  <header class="shell masthead">
+    <a class="brand" href="index.html">Smash Crew</a>
+    <span class="masthead-note">Studio visivo · Il Metodo</span>
+  </header>
+
+  <main id="confronto" class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Cinque composizioni · Un solo manifesto</p>
+      <h1 id="page-title">IL<br /><span>METODO</span></h1>
+      <p class="intro-copy">Cinque modi di raccontare lo stesso manifesto, con le fotografie originali e un reveal bianco e nero che accende il colore al passaggio. Scorri per confrontare gerarchia, ritmo e spazio</p>
+      <nav class="jump-nav" aria-label="Vai a una proposta di layout">
+        <a href="#layout-01">01 · Classica</a>
+        <a href="#layout-02">02 · Editoriale</a>
+        <a href="#layout-03">03 · Bento</a>
+        <a href="#layout-04">04 · Asimmetrica</a>
+        <a href="#layout-05">05 · Magazine</a>
+      </nav>
+    </section>
+
+    <div class="layout-list">
+      <section class="layout" id="layout-01" aria-labelledby="title-01">
+        <header class="layout-head">
+          <div>
+            <p class="option-index">Variante 01</p>
+            <h2 class="layout-name" id="title-01">Classica<br />Bilanciata</h2>
+          </div>
+          <p class="layout-note">Titolo e copy centrati, due fotografie inclinate in direzioni opposte</p>
+        </header>
+        <div class="classic-intro">
+          <h3 class="classic-title"><span>ZERO COMPROMESSI</span><span class="accent">SOLO VERO SMASH</span></h3>
+          <div class="manifesto-copy">
+            <p>Carne fresca, macinata ogni giorno e pressata sulla piastra a <strong>200°C</strong>. La reazione di Maillard crea la crosta croccante; dentro resta tutto il gusto della carne</p>
+          </div>
+        </div>
+        <div class="classic-photos">
+          <figure class="photo-card" tabindex="0" aria-label="Foto della pressa sulla piastra">
+            <img src="assets/manifesto-pressa.jpg" alt="La pressa che schiaccia il patty sulla piastra rovente" fetchpriority="high" />
+            <figcaption class="photo-label">01 / La pressa</figcaption>
+          </figure>
+          <figure class="photo-card" tabindex="0" aria-label="Foto dello smash burger sul vassoio">
+            <img src="assets/manifesto-tray.jpg" alt="Smash burger con cheddar fuso e bun tostato sul vassoio" loading="lazy" decoding="async" />
+            <figcaption class="photo-label">02 / Il vassoio</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="layout" id="layout-02" aria-labelledby="title-02">
+        <header class="layout-head">
+          <div>
+            <p class="option-index">Variante 02</p>
+            <h2 class="layout-name" id="title-02">Editorial<br />Split 50/50</h2>
+          </div>
+          <p class="layout-note">Testo allineato a sinistra e immagini in sequenza con sovrapposizione</p>
+        </header>
+        <div class="editorial-grid">
+          <div class="editorial-copy">
+            <h3 class="editorial-title"><span>ZERO</span><span>COMPROMESSI</span><span class="accent">SOLO VERO</span><span>SMASH</span></h3>
+            <div class="manifesto-copy">
+              <p>Carne fresca, macinata ogni giorno e pressata sulla piastra a <strong>200°C</strong>. La reazione di Maillard crea la crosta croccante; dentro resta tutto il gusto della carne</p>
+            </div>
+          </div>
+          <div class="editorial-photos" aria-label="Fotografie del manifesto">
+            <figure class="photo-card" tabindex="0" aria-label="Foto della pressa sulla piastra">
+              <img src="assets/manifesto-pressa.jpg" alt="La pressa che schiaccia il patty sulla piastra rovente" loading="lazy" decoding="async" />
+              <figcaption class="photo-label">01 / La pressa</figcaption>
+            </figure>
+            <figure class="photo-card" tabindex="0" aria-label="Foto dello smash burger sul vassoio">
+              <img src="assets/manifesto-tray.jpg" alt="Smash burger con cheddar fuso e bun tostato sul vassoio" loading="lazy" decoding="async" />
+              <figcaption class="photo-label">02 / Il vassoio</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout" id="layout-03" aria-labelledby="title-03">
+        <header class="layout-head">
+          <div>
+            <p class="option-index">Variante 03</p>
+            <h2 class="layout-name" id="title-03">Bento Grid<br />Street</h2>
+          </div>
+          <p class="layout-note">Titolo a tutta larghezza sopra tre moduli: pressa, manifesto e burger</p>
+        </header>
+        <h3 class="bento-title">ZERO COMPROMESSI <span class="accent">SOLO VERO SMASH</span></h3>
+        <div class="bento-grid">
+          <figure class="photo-card" tabindex="0" aria-label="Foto della pressa sulla piastra">
+            <img src="assets/manifesto-pressa.jpg" alt="La pressa che schiaccia il patty sulla piastra rovente" loading="lazy" decoding="async" />
+            <figcaption class="photo-label">01 / La pressa</figcaption>
+          </figure>
+          <div class="bento-copy">
+            <p class="eyebrow">Il Metodo</p>
+            <div class="manifesto-copy">
+              <p>Carne fresca, macinata ogni giorno e pressata sulla piastra a <strong>200°C</strong>. La reazione di Maillard crea la crosta croccante; dentro resta tutto il gusto della carne</p>
+            </div>
+          </div>
+          <figure class="photo-card" tabindex="0" aria-label="Foto dello smash burger sul vassoio">
+            <img src="assets/manifesto-tray.jpg" alt="Smash burger con cheddar fuso e bun tostato sul vassoio" loading="lazy" decoding="async" />
+            <figcaption class="photo-label">02 / Il vassoio</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="layout" id="layout-04" aria-labelledby="title-04">
+        <header class="layout-head">
+          <div>
+            <p class="option-index">Variante 04</p>
+            <h2 class="layout-name" id="title-04">Double Photo<br />Right</h2>
+          </div>
+          <p class="layout-note">Colonna narrativa al 40%, parete fotografica al 60%</p>
+        </header>
+        <div class="wall-grid">
+          <div class="wall-copy">
+            <h3 class="wall-title"><span>ZERO</span><span>COMPROMESSI</span><span class="accent">SOLO VERO</span><span>SMASH</span></h3>
+            <div class="manifesto-copy">
+              <p>Carne fresca, macinata ogni giorno e pressata sulla piastra a <strong>200°C</strong>. La reazione di Maillard crea la crosta croccante; dentro resta tutto il gusto della carne</p>
+            </div>
+          </div>
+          <div class="wall-photos" aria-label="Parete di fotografie del manifesto">
+            <figure class="photo-card" tabindex="0" aria-label="Foto della pressa sulla piastra">
+              <img src="assets/manifesto-pressa.jpg" alt="La pressa che schiaccia il patty sulla piastra rovente" loading="lazy" decoding="async" />
+              <figcaption class="photo-label">01 / La pressa</figcaption>
+            </figure>
+            <figure class="photo-card" tabindex="0" aria-label="Foto dello smash burger sul vassoio">
+              <img src="assets/manifesto-tray.jpg" alt="Smash burger con cheddar fuso e bun tostato sul vassoio" loading="lazy" decoding="async" />
+              <figcaption class="photo-label">02 / Il vassoio</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout" id="layout-05" aria-labelledby="title-05">
+        <header class="layout-head">
+          <div>
+            <p class="option-index">Variante 05</p>
+            <h2 class="layout-name" id="title-05">Magazine Flow</h2>
+          </div>
+          <p class="layout-note">Una testata a tutta pagina, immagini ampie e testo in chiusura</p>
+        </header>
+        <h3 class="flow-title" id="flow-heading"><span>ZERO COMPROMESSI</span><span class="accent">SOLO VERO SMASH</span></h3>
+        <div class="flow-photos" aria-label="Fotografie del manifesto">
+          <figure class="photo-card" tabindex="0" aria-label="Foto della pressa sulla piastra">
+            <img src="assets/manifesto-pressa.jpg" alt="La pressa che schiaccia il patty sulla piastra rovente" loading="lazy" decoding="async" />
+            <figcaption class="photo-label">01 / La pressa</figcaption>
+          </figure>
+          <figure class="photo-card" tabindex="0" aria-label="Foto dello smash burger sul vassoio">
+            <img src="assets/manifesto-tray.jpg" alt="Smash burger con cheddar fuso e bun tostato sul vassoio" loading="lazy" decoding="async" />
+            <figcaption class="photo-label">02 / Il vassoio</figcaption>
+          </figure>
+        </div>
+        <div class="flow-copy manifesto-copy">
+          <p class="eyebrow">Il Metodo</p>
+          <p>Carne fresca, macinata ogni giorno e pressata sulla piastra a <strong>200°C</strong>. La reazione di Maillard crea la crosta croccante; dentro resta tutto il gusto della carne</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="shell footer">
+    <span><strong>Preview indipendente</strong> · La pagina principale resta invariata</span>
+    <span>Smash Crew · Il Metodo</span>
+  </footer>
+</body>
+</html>

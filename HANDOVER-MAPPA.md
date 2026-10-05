@@ -1,0 +1,381 @@
+# Handover — Sezione "Dove siamo" · Smash Crew
+
+Documento autonomo pensato per essere passato a un coding agent che non ha accesso a questa sessione.
+Tutto il materiale necessario è qui dentro. I file citati sono relativi alla root del repository.
+
+---
+
+## 1. Contesto
+
+Progetto: `demo/smashcrew/index.html`, sito one-page statico (HTML + CSS + JS vanilla, nessun build, nessun framework, nessun bundler).
+Sezione interessata: `#dove-siamo`, titolo "Dove siamo", in `demo/smashcrew/index.html`.
+
+Indirizzo del locale: **Via Regina Elena 56, 62012 Civitanova Marche (MC)**.
+Coordinate di lavoro usate: **43.3125900, 13.7249566** (segmento "Centro" di Via Regina Elena, quello dove cade il marker grigio dell'embed Google). Il civico 56 esatto non è confermato dal geocoder: le coordinate sono provvisorie.
+
+Obiettivo: il pin arancione deve essere **ancorato alla posizione geografica reale** e seguire pan e zoom, sostituendo il marker grigio di Google.
+
+---
+
+## 2. Perché il codice attuale non può funzionare
+
+Nel sito il pin è un elemento HTML posizionato sopra un `<iframe>` di Google:
+
+```css
+.map-pin, .map-pin-overlay, .map-spot, .pin {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+```
+
+Questo non è un problema di tecnica ma di isolamento: il contenuto di un iframe cross-origin è inaccessible dalla pagina padre. Nessun CSS, nessun JS e nessun ascolto di eventi sulla pagina può sapere dove si trova la strada sotto il puntatore. `position: sticky` non aiuta: sticky serve a fermare un elemento rispetto allo scroll della pagina, non rispetto al pan interno di una mappa.
+
+Le uniche vie reali sono:
+1. **Sostituire l'iframe con una mappa che il sito controlla** (Leaflet / MapLibre), che espone marker geolocalizzati nativi.
+2. Usare la **Google Maps JavaScript API**, che richiede chiave e fatturazione. Scartata: non serve e costa.
+
+---
+
+## 3. Codice attuale nel sito
+
+### 3.1 CSS — `demo/smashcrew/index.html`, circa riga 1569-1660
+
+```css
+/* ============================================================
+   DOVE SIAMO — dark map + pulsing pin from DeepSeek v4.1.
+   The dark look is a CSS filter on the standard Google embed;
+   the "heartbeat" is an expanding ring (pulseRing keyframes)
+   behind an orange pin, exactly like the source site.
+   ============================================================ */
+.dove { padding: clamp(90px, 12vw, 150px) 0; }
+.dove__kicker {
+  color: var(--orange); font-weight: 800;
+  letter-spacing: 0.17em; text-transform: uppercase;
+  font-size: 0.68rem; margin: 0 0 14px;
+}
+.dove__title {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(2.6rem, 6.5vw, 5.2rem); line-height: 0.95;
+  color: var(--ink); margin: 0 0 14px;
+}
+.dove__sub { color: var(--muted); max-width: 52ch; margin: 0 0 40px; }
+
+.map-frame-shell {
+  position: relative; overflow: hidden;
+  min-height: 420px; border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0d0d0d;
+}
+.map-frame {
+  position: absolute; inset: 0;
+  display: block; overflow: hidden;
+  border-radius: inherit;
+}
+.map-frame iframe {
+  /* Mantiene la mappa Google interattiva; il filtro scurisce solo la resa visiva. */
+  filter: invert(92%) hue-rotate(185deg) saturate(0) brightness(0.92) contrast(1.05);
+  border: 0; width: 100%; height: 100%;
+  position: absolute; inset: 0;
+  pointer-events: auto;
+}
+.map-frame__vignette {
+  pointer-events: none; position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.map-pin, .map-pin-overlay, .map-spot, .pin {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+.map-pin__dot {
+  display: grid; place-items: center; width: 48px; height: 48px;
+  background: var(--orange); color: var(--bg); border-radius: 999px;
+  box-shadow: 0 0 40px rgba(255, 85, 0, 0.8);
+}
+.pulse-ring {
+  position: absolute; inset: 0; border-radius: 999px;
+  border: 1px solid rgba(255, 85, 0, 0.7);
+  animation: 2.4s ease-out infinite pulseRing;
+}
+.pulse-ring--late { animation-delay: 1.2s; }
+@keyframes pulseRing {
+  0% { opacity: 0.9; transform: scale(0.7); }
+  to { opacity: 0; transform: scale(2.4); }
+}
+
+.map-bar {
+  position: absolute; z-index: 11; left: 16px; right: 16px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  pointer-events: none;
+  background: rgba(13, 13, 13, 0.72); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px;
+  padding: 18px 20px;
+}
+@media (min-width: 640px) {
+  .map-bar { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+.map-bar small {
+  display: block; color: var(--orange); font-weight: 800;
+  letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.75rem;
+}
+.map-bar b { display: block; color: var(--ink); font-size: 0.98rem; margin-top: 4px; }
+.map-bar .map-tel { pointer-events: auto; }
+.map-bar .map-cta {
+  pointer-events: auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--orange); color: var(--bg); text-decoration: none;
+  font-weight: 800; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 14px 26px; border-radius: 999px; white-space: nowrap;
+  transition: background 0.2s var(--ease-out-quint), transform 0.2s var(--ease-out-quint), box-shadow 0.2s var(--ease-out-quint);
+}
+.map-bar .map-cta:hover { background: var(--orange-soft); transform: translateY(-2px); box-shadow: 0 0 24px rgba(255, 85, 0, 0.55); }
+```
+
+### 3.2 Markup — `demo/smashcrew/index.html`, circa riga 2612-2656
+
+```html
+<!-- ============ DOVE SIAMO — dark map + pulsing pin from DeepSeek v4.1 ============ -->
+<section class="dove wrap" id="dove-siamo" aria-labelledby="dove-title">
+  <span id="location" aria-hidden="true"></span>
+  <p class="dove__kicker">Vieni a trovarci</p>
+  <h2 class="dove__title" id="dove-title">Dove siamo</h2>
+  <p class="dove__sub">Il nostro bancone è a Civitanova Marche: piastra sempre accesa e smash che parte solo quando lo chiedi</p>
+
+  <div class="dove__grid">
+  <div class="map-frame-shell">
+    <div class="map-frame">
+      <iframe
+        title="Mappa Smash Crew, Civitanova Marche"
+        src="https://maps.google.com/maps?q=Via%20Regina%20Elena%2056%2C%2062012%20Civitanova%20Marche%20(MC)&z=15&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-frame__vignette"></div>
+
+      <div class="map-pin" aria-hidden="true">
+      <span class="map-pin__dot">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span class="pulse-ring"></span>
+        <span class="pulse-ring pulse-ring--late"></span>
+      </span>
+      </div>
+    </div>
+
+    <div class="map-bar">
+      <div>
+        <small>Smash Crew · Sede unica</small>
+        <b>Via Regina Elena 56, 62012 Civitanova Marche (MC) <!-- DA CONFERMARE: indirizzo da meta descrizione --></b>
+        <!-- DA CONFERMARE: numero = WhatsApp aziendale, in attesa del telefono fisso -->
+        <a class="map-tel" href="tel:+393501684896" aria-label="Chiama Smash Crew">
+          350 168 4896
+        </a>
+      </div>
+      <a class="map-cta" href="https://maps.google.com/?q=Via+Regina+Elena+56+62012+Civitanova+Marche+MC" target="_blank" rel="noopener noreferrer">Indicazioni</a>
+    </div>
+  </div>
+
+  <!-- ORARI — card UI from POINTONI; hours DA CONFERMARE col cliente -->
+  <aside class="hours-card" aria-label="Orari di apertura">
+    ...
+  </aside>
+  </div>
+</section>
+```
+
+Da preservare intatti: `.map-frame-shell`, `.map-frame`, `.map-frame__vignette`, `.map-bar` e tutto il blocco orari `.hours-card`. Questi elementi definiscono il layout e la barra informative sopra la mappa.
+
+---
+
+## 4. Prototipo funzionante già pronto
+
+`demo/smashcrew/map-pin-preview.html` è una pagina di confronto funzionante: a sinistra l'iframe Google attuale con l'overlay finto, a destra Leaflet con marker geografico. Contiene già il CSS del pin a goccia e i provider di tile verificati. **È il riferimento da copiare nel sito.**
+
+Pezzi chiave del prototipo:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+```
+
+```css
+/* Esri Dark Gray Canvas è già scuro: niente filtro invert, solo un ritocco leggero */
+.leaflet-tile-pane { filter: saturate(1.1) contrast(1.1) brightness(.7); }
+
+.geo-pin { position: relative; display: block; width: 46px; height: 50px; }
+.geo-pin__mark {
+  display: block; width: 46px; height: 46px; color: #ff6a1f;
+  filter: drop-shadow(0 0 10px rgba(255,106,31,.95)) drop-shadow(0 3px 5px rgba(0,0,0,.65));
+}
+.geo-pin__hole { fill: #0b0b0b; }
+.geo-pin::before, .geo-pin::after {
+  position: absolute; left: 23px; top: 42px; width: 22px; height: 22px;
+  margin: -11px 0 0 -11px; border: 2px solid rgba(255,106,31,.85);
+  border-radius: 50%; content: ''; animation: pulse 2.8s cubic-bezier(.22,.61,.36,1) infinite;
+}
+.geo-pin::after { animation-delay: 1.4s; }
+@keyframes pulse {
+  0% { transform: scale(.35); opacity: .95; }
+  70% { opacity: .16; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+```
+
+```js
+const lat = 43.3125900;
+const lon = 13.7249566;
+const map = L.map('leaflet-map', {
+  center: [lat, lon], zoom: 15, zoomControl: true,
+  dragging: true, scrollWheelZoom: true, doubleClickZoom: true, touchZoom: true
+});
+const ATTRIB = 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &middot; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+  { maxZoom: 18, attribution: ATTRIB }).addTo(map);
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+  { maxZoom: 18, pane: 'shadowPane' }).addTo(map);
+
+const icon = L.divIcon({
+  className: '',
+  html: '<span class="geo-pin"><svg class="geo-pin__mark" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/>' +
+        '<circle class="geo-pin__hole" cx="12" cy="9" r="3.1"/></svg></span>',
+  iconSize: [46,50], iconAnchor: [23,45]
+});
+L.marker([lat, lon], { icon, keyboard: true, title: 'Smash Crew' }).addTo(map);
+```
+
+Nota: `iconAnchor: [23,45]` è il punto che pianta il marker sul terreno. Con il pin a goccia la punta è in basso, quindi l'ancoraggio va in fondo, non al centro.
+
+---
+
+## 5. Trappole già individuate (non ripeterle)
+
+**5.1 — L'hash di integrità del CSS Leaflet.** L'hash più diffuso online per `leaflet.css` 1.9.4 è **sbagliato**:
+
+```
+SBAGLIATO: sha256-p4NxAoJBhIIN+hmNHrzRCf9tF/qN0p6FqQ3brp0F0vo=
+GIUSTO:    sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=
+```
+
+Il browser blocca il foglio di stile e **non lo segnala in modo evidente**: Leaflet gira, crea i tile e il marker nel DOM, ma senza CSS i tile non si posizionano e il marker finisce fuori dal riquadro (misurato a y=3643px invece di ~530px). Sintomo: mappa semivuota e pin invisibile. Lo stesso hash errato era presente in `prod/jb-jewels-watches/jb-watches-redesign/public/demo-maps.html` e nel suo build `dist/`, rendendo rotte 26 mappe su 26.
+
+Per ricalcolarlo:
+```bash
+curl -sL https://unpkg.com/leaflet@1.9.4/dist/leaflet.css | openssl dgst -sha256 -binary | openssl base64 -A
+```
+
+**5.2 — CARTO richiede una API key.** Le tile `basemaps.cartocdn.com/light_all` rispondono HTTP 200 ma restituiscono una PNG da 2 KB che è l'immagine "API KEY REQUIRED". Il codice HTTP non dice nulla: va controllato il peso del file o guardato il risultato a schermo. Provider usabili senza registrazione, verificati con curl: Esri ArcGIS Canvas Light Gray e Dark Gray, OpenStreetMap, OpenTopoMap.
+
+**5.3 — Il sito non deve crescere di complessità.** Niente bundler, npm, build step o dipendenze. Leaflet si carica da CDN con due tag e i suoi hash.
+
+**5.4 — Coordinate.** `43.3125900, 13.7249566` è il segmento "Centro" di Via Regina Elena, non il civico. Il valore `43.3144337, 13.7239044` è il segmento Fontespina e sposta il pin a ovest: non usarlo.
+
+**5.5 — Manca `map.invalidateSize()`.** Leaflet calcola la dimensione del contenitore all'avvio. Se il contenitore ha altezza in `clamp()` o dipende dal layout, la mappa resta tagliata. Serve una chiamata dopo il primo frame e un `ResizeObserver` sul contenitore.
+
+---
+
+## 6. Vincoli del progetto
+
+- Non introdurre build step, npm, bundler o framework. HTML statico.
+- Non toccare le Sezioni 1, 2 e 3 del sito: sono già approvate.
+- Non modificare `.map-bar`, `.map-frame-shell`, `.map-frame__vignette` e il blocco orari: definiscono il layout approvato.
+- Il look deve restare scuro e monocromatico come oggi. L'arancione è `--orange`, valore `#ff6a1f` nel prototipo, usato anche come `#ff5500` in `.map-pin__dot`.
+- L'attribuzione di Esri e OpenStreetMap è obbligatoria e deve restare visibile.
+- Il civico 56 non è confermato. Qualunque modifica alle coordinate va dichiarata come provvisoria.
+- Rispetta `prefers-reduced-motion`: disattiva le animazioni del pin.
+
+---
+
+## 7. Strumento di verifica
+
+Playwright è già installato nella root (`node_modules/playwright`). Serve per misurare, non per indovinare.
+
+```bash
+node -e "
+const { chromium } = require('playwright');
+(async () => {
+  const b = await chromium.launch();
+  const p = await b.newPage({ viewport: { width: 1600, height: 1400 } });
+  const errs = [];
+  p.on('pageerror', e => errs.push('PAGEERROR: ' + e.message));
+  p.on('console', m => { if (m.type() === 'error') errs.push('CONSOLE: ' + m.text()); });
+  await p.goto('http://127.0.0.1:8791/map-pin-preview.html?v=X', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(4000);
+  console.log(JSON.stringify(await p.evaluate(() => {
+    const r = e => { const b = e.getBoundingClientRect();
+      return { x: Math.round(b.x), y: Math.round(b.y), w: Math.round(b.width), h: Math.round(b.height) }; };
+    return { contenitore: r(document.getElementById('leaflet-map')),
+             marker: r(document.querySelector('.leaflet-marker-icon')),
+             tile: document.querySelectorAll('.leaflet-tile-pane img').length };
+  })));
+  console.log('ERRORI:', errs.length ? errs.slice(0,4) : 'nessuno');
+  await b.close();
+})();
+"
+```
+
+Criterio di accettazione geometrico: il marker deve risultare centrato nel contenitore più lo scarto dell'ancoraggio. Con il pin a goccia e `iconAnchor: [23,45]`, il centro del bounding box del marker sta circa 22 px sopra il centro del contenitore: quello è il valore atteso, non un errore.
+
+Server locale per la preview: `python -m http.server 8791` dentro `demo/smashcrew/`.
+
+---
+
+## 8. Decisione ancora aperta
+
+Esri Dark Gray Canvas mostra i nomi delle vie ma **non i punti di interesse**: la mappa Google attuale mostra anche le icone dei locali vicini. Se quelle icone sono desiderabili, serve un overlay separato oppure tornare a Google rinunciando al pin ancorato. Questa scelta non è stata ancora presa.
+
+---
+
+## 9. Prompt pronto per il coding agent
+
+> Incolla questo blocco insieme a `demo/smashcrew/HANDOVER-MAPPA.md`.
+
+```
+C — Contesto
+Il sito statico demo/smashcrew/index.html ha una sezione "Dove siamo" (#dove-siamo) con
+una mappa. Il pin arancione è un elemento HTML posizionato sopra un iframe Google con
+top/left 50%, quindi resta fermo al centro dello schermo invece di piantarsi sulla strada.
+Il cliente non accetta: vuole il pin ancorato alla posizione reale del locale e deve seguire
+pan e zoom. Tutto il materiale, il codice corrente, i vincoli e le trappole già individuate
+sono in demo/smashcrew/HANDOVER-MAPPA.md. Leggi quel file prima di scrivere codice.
+
+A — Attività
+Porta dentro demo/smashcrew/index.html la sezione mappa funzionante già prototipata in
+demo/smashcrew/map-pin-preview.html: sostituisci l'iframe Google con Leaflet, con marker
+geolocalizzato alle coordinate 43.3125900, 13.7249566, pin a goccia arancione con alone e
+pulsazione. Una sola deliverable: la sezione mappa del sito, funzionante e verificata.
+
+M — Materiali
+- demo/smashcrew/HANDOVER-MAPPA.md — contesto, codice attuale, trappole, verifica.
+- demo/smashcrew/map-pin-preview.html — prototipo funzionante, sorgente da cui copiare.
+- Codice attuale del sito: CSS circa riga 1569-1660, markup circa riga 2612-2656.
+- Tile provider verificato: Esri World_Dark_Gray_Base + World_Dark_Gray_Reference.
+- Leaflet 1.9.4 da unpkg con hash SHA-256 corretti già indicati nell'handover.
+
+P — Paletti
+- Fare: usare Leaflet da CDN con gli hash di integrità corretti dell'handover; mantenere
+  .map-frame-shell, .map-frame__vignette, .map-bar e il blocco orari invariati; conservare
+  il look scuro monocromatico e l'arancione del brand; mantenere l'attribuzione Esri e
+  OpenStreetMap visibile; chiamare map.invalidateSize() al primo frame e agganciare un
+  ResizeObserver al contenitore; rispettare prefers-reduced-motion.
+- Evitare: nessun build step, npm, bundler o framework; nessuna API key; nessun tile
+  provider CARTO; nessun hash di integrità copiato da internet senza ricalcolarlo; nessuna
+  modifica alle Sezioni 1, 2 e 3; nessun placeholder o TODO lasciato nel codice; nessuna
+  diagnosi senza misura.
+- Sempre: se un valore è provvisorio, scrivilo come commento esplicito. Il civico 56 non
+  è confermato, quindi le coordinate restano provvisorie e vanno dichiarate tali.
+
+O — Output
+Modifica a demo/smashcrew/index.html e null'altro. Al termine un recap in quattro punti:
+cosa hai modificato, con i numeri di riga; cosa non hai modificato e perché; come hai
+verificato, con l'output reale della misura Playwright; problemi rimasti, dichiarati anche
+se non risolti. Non dichiarare done senza aver visto l'output della verifica.
+```
