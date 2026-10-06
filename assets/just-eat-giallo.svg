@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Just Eat">
   <defs>
-    <!-- Stencil negativo: il rettangolo bianco rende visibile il badge, le due
-         righe di testo nere lo nascondono. Il testo e' nero e ha anche uno
-         stroke nero (width 3, join/cap round): lo stroke espande il contorno
-         dei glifi di 1.5 unita' per lato, quindi il buco risulta piu' spesso
-         e leggibile senza ispessire i glifi stessi. -->
+    <!-- Stencil negativo: rettangolo bianco = badge visibile, lettere nere = buco.
+         Spaziatura: letter-spacing 5.5px fra i glifi (prima 1.5px: le lettere
+         quasi si toccavano, gap minimo 1px). Con 5.5px il gap minimo sale a 5px,
+         quindi ogni lettera ha respiro senza collassare.
+         Interlinea: le due righe stanno a y=47 e y=99 (distanza 52): il
+         discendente della "j" termina a ~y54, il tetto di "eat" inizia a ~y74,
+         quindi restano ~32px di aria verticale e i due elementi non si toccano.
+         Lo stroke 2.5 (round join/cap) ispessisce il taglio mantenendo le
+         lettere bold, ma non sbava sulle vicine perche' non esiste overlap.
+         x=62.5 compensa lo spazio finale del letter-spacing per centrare il
+         wordmark (margini interni L19 / R21, T20 / B20). -->
     <mask id="justeat-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
       <rect width="120" height="120" rx="27" fill="#FFFFFF"/>
-      <text x="60" y="50" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="36" font-weight="900" letter-spacing="-2" fill="#000000" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">just</text>
-      <text x="60" y="96" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="36" font-weight="900" letter-spacing="-2" fill="#000000" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">eat</text>
+      <text x="62.5" y="47" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="35" font-weight="900" letter-spacing="5.5px" fill="#000000" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">just</text>
+      <text x="62.5" y="99" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="35" font-weight="900" letter-spacing="5.5px" fill="#000000" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">eat</text>
     </mask>
   </defs>
   <rect width="120" height="120" rx="27" fill="#FCDB2C" mask="url(#justeat-cut)"/>
