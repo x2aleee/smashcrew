@@ -1195,13 +1195,10 @@
     }
     /* Altezza fissa + width auto: ogni logo mantiene il proprio rapporto, nessuna
        deformazione. Le due altezze compensano la differenza di forma, cosi'
-       Deliveroo (sagoma piena) e Glovo (sagoma slanciata) hanno lo stesso peso visivo.
-       Glovo usa il marchio con pin ridotto al 90%: dentro il viewBox l'inchiostro
-       parte piu in basso, quindi il -4.8% in verticale riporta il centro ottico
-       del marchio al centro della casella, come Deliveroo. */
+       Deliveroo (sagoma piena) e Just Eat (badge quadrato) hanno lo stesso peso visivo. */
     .channel-icon svg, .channel-icon img { display: block; width: auto; max-width: 100%; }
     .channel-icon--deliveroo img { height: 33px; }
-    .channel-icon--glovo img { height: 44px; transform: translateY(-4.8%); }
+    .channel-icon--justeat img { height: 42px; }
     .channel-info { min-width: 0; }
     .channel-label {
       display: block;
@@ -1241,7 +1238,7 @@
       .channel-card { min-height: 76px; padding: 1rem; }
       .channel-icon { width: 48px; height: 48px; flex-basis: 48px; }
       .channel-icon--deliveroo img { height: 29px; }
-      .channel-icon--glovo img { height: 37px; }
+      .channel-icon--justeat img { height: 35px; }
       .channel-name { font-size: 1.3rem !important; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -3031,9 +3028,9 @@
         <!-- 3 Action Channel Cards -->
         <div class="delivery-channels-grid">
           <!-- Deliveroo -->
-          <a href="https://www.deliveroo.it" target="_blank" rel="noopener noreferrer" class="channel-card">
+          <a href="https://deliveroo.it/it/menu/ancona/civitanova-marche/smash-crew-via-regina-elena-56" target="_blank" rel="noopener noreferrer" class="channel-card">
             <div class="channel-icon channel-icon--deliveroo" aria-hidden="true">
-              <img src="assets/deliveroo-giallo.svg" alt="" loading="lazy" decoding="async" />
+              <img src="assets/deliveroo-teal.svg" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="channel-info">
               <span class="channel-label">DELIVERY</span>
@@ -3042,14 +3039,14 @@
             <span class="channel-arrow" aria-hidden="true">↗</span>
           </a>
 
-          <!-- Glovo -->
-          <a href="https://www.glovoapp.com" target="_blank" rel="noopener noreferrer" class="channel-card">
-            <div class="channel-icon channel-icon--glovo" aria-hidden="true">
-              <img src="assets/glovo-circle-20-giallo.svg" alt="" loading="lazy" decoding="async" />
+          <!-- Just Eat -->
+          <a href="https://www.justeat.it/restaurants-smash-crew-civitanova-marche/menu" target="_blank" rel="noopener noreferrer" class="channel-card">
+            <div class="channel-icon channel-icon--justeat" aria-hidden="true">
+              <img src="assets/just-eat.svg" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="channel-info">
               <span class="channel-label">DELIVERY</span>
-              <h3 class="channel-name">GLOVO</h3>
+              <h3 class="channel-name">JUST EAT</h3>
             </div>
             <span class="channel-arrow" aria-hidden="true">↗</span>
           </a>
