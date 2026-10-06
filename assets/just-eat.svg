@@ -10,5 +10,5 @@
       <text x="60" y="92" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="34" font-weight="800" letter-spacing="-1.5" fill="#000000">eat</text>
     </mask>
   </defs>
-  <rect width="120" height="120" rx="27" fill="#FCDB2C" mask="url(#justeat-cut)"/>
+  <rect width="120" height="120" rx="27" fill="#FF5500" mask="url(#justeat-cut)"/>
 </svg>
