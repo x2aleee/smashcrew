@@ -2,12 +2,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Just Eat">
   <defs>
     <!-- Stencil negativo: il rettangolo bianco rende visibile il badge, le due
-         righe di testo nere lo nascondono, quindi "just eat" resta ritagliato
-         e lascia trasparire il fondo scuro della card. -->
+         righe di testo nere lo nascondono. Il testo e' nero e ha anche uno
+         stroke nero (width 3, join/cap round): lo stroke espande il contorno
+         dei glifi di 1.5 unita' per lato, quindi il buco risulta piu' spesso
+         e leggibile senza ispessire i glifi stessi. -->
     <mask id="justeat-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
       <rect width="120" height="120" rx="27" fill="#FFFFFF"/>
-      <text x="60" y="52" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="34" font-weight="800" letter-spacing="-1.5" fill="#000000">just</text>
-      <text x="60" y="92" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="34" font-weight="800" letter-spacing="-1.5" fill="#000000">eat</text>
+      <text x="60" y="50" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="36" font-weight="900" letter-spacing="-2" fill="#000000" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">just</text>
+      <text x="60" y="96" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,Helvetica,sans-serif" font-size="36" font-weight="900" letter-spacing="-2" fill="#000000" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">eat</text>
     </mask>
   </defs>
   <rect width="120" height="120" rx="27" fill="#FF5500" mask="url(#justeat-cut)"/>
