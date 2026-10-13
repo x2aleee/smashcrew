@@ -41,11 +41,15 @@ La cartella e' rigenerabile e non va versionata.
 ## 3. Pubblicare
 
 ```bash
-npx wrangler pages deploy _deploy --project-name=smashcrew --commit-dirty=true
+npx wrangler pages deploy _deploy --project-name=smashcrew --branch=main --commit-dirty=true
 ```
 
+`--branch=main` fa finire la pubblicazione in produzione: senza, finirebbe su un indirizzo di
+prova e `smashcrew.pages.dev` resterebbe com'e' adesso.
+
 In alternativa, dalla dashboard: Workers & Pages, progetto `smashcrew`, Create deployment, carica la
-cartella `_deploy`. Poi ripetere `python verifica-asset.py --live`: deve finire senza errori.
+cartella `_deploy` (o uno zip che la contenga). Poi ripetere `python verifica-asset.py --live`: deve
+finire senza errori.
 
 ## 4. Rendere il guasto impossibile (una volta sola)
 

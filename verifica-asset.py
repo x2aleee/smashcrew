@@ -338,7 +338,8 @@ def esporta(asset, destinazione):
     segna("ok", "pacchetto pronto in %s/: %d file, %.1f MB"
           % (destinazione.name, copiati, megabyte))
     print("   il contenuto e' pronto per la pubblicazione:")
-    print("   npx wrangler pages deploy %s --project-name=smashcrew --commit-dirty=true" % destinazione.name)
+    print("   npx wrangler pages deploy %s --project-name=smashcrew --branch=main --commit-dirty=true"
+          % destinazione.name, flush=True)
 
 
 def main():
