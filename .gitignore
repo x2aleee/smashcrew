@@ -2,6 +2,8 @@
 _*
 *.log
 *.tmp
+# _headers non e' una cartella di lavoro: Cloudflare lo legge dalla pubblicazione
+!_headers
 # Backup e iterazioni vecchie del sito: solo file di lavoro
 .backup-*
 .pre-*

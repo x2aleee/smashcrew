@@ -1,0 +1,9 @@
+# Intestazioni di risposta del sito Smash Crew.
+# Cloudflare Pages le applica soltanto se questo file fa parte della pubblicazione,
+# per questo sta nella radice del progetto e viene copiato in _deploy/.
+# I valori riproducono quelli che il sito ha online al 13 ottobre 2026.
+/*
+  Access-Control-Allow-Origin: *
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  Link: <https://fonts.googleapis.com>; rel="preconnect"
